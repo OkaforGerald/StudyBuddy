@@ -1,18 +1,22 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace StudyBuddy.Client.Client.Pages
 {
     public partial class Chat
     {
+        [CascadingParameter(Name ="AuthenticationState")]
+        public AuthenticationState AuthenticationState { get; set; }
         private HubConnection hubConnection;
         private List<string> messages = new List<string>();
         private string? message;
 
         protected override async Task OnInitializedAsync()
         {
-            hubConnection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:7011/chat")
-                .Build();
+            var auth = await authService.RefreshToken();
+            hubConnection = await messageService.ConfigureHubConnection();
 
             hubConnection.On<string>("ReceiveMessage", (message) =>
             {
