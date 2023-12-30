@@ -1,7 +1,7 @@
-﻿using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
+using Shared;
 
 namespace StudyBuddy.Client.Client.Pages
 {
@@ -10,13 +10,31 @@ namespace StudyBuddy.Client.Client.Pages
         [CascadingParameter(Name ="AuthenticationState")]
         public AuthenticationState AuthenticationState { get; set; }
         private HubConnection hubConnection;
+        private List<string> onlineUsers = new List<string>();
+        private string? otherUser = null;
         private List<string> messages = new List<string>();
         private string? message;
 
         protected override async Task OnInitializedAsync()
         {
-            var auth = await authService.RefreshToken();
-            hubConnection = await messageService.ConfigureHubConnection();
+            //var auth = await authService.RefreshToken();
+
+            Interceptor.RegisterEvent();
+            onlineUsers = await messageService.GetContacts();
+        }
+
+        public async Task BroadcastMessage()
+        {
+            await hubConnection.SendAsync("BroadcastMessage",otherUser, message);
+        }
+
+        public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
+        private async Task HandleUserSelected(string SelectedUser)
+        {
+            otherUser = SelectedUser;
+
+            hubConnection = await messageService.ConfigureHubConnection(otherUser);
 
             hubConnection.On<string>("ReceiveMessage", (message) =>
             {
@@ -27,21 +45,17 @@ namespace StudyBuddy.Client.Client.Pages
             try
             {
                 await hubConnection.StartAsync();
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-        }
 
-        public async Task BroadcastMessage()
-        {
-            await hubConnection.SendAsync("BroadcastMessage", message);
         }
-
-        public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
 
         public async ValueTask DisposeAsync()
         {
+            Interceptor.DisposeEvent();
             await hubConnection.DisposeAsync();
         }
 }

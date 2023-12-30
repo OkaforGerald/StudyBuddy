@@ -1,0 +1,33 @@
+﻿@inherits ComponentBase
+
+<div id="plist" class="people-list">
+    @if(OnlineUsers == null)
+    {
+        <span>Loading...</span>
+    }else if(!OnlineUsers.Any()){
+        <span>No conversations yet</span>
+    }
+    else
+    {
+        <ul class="list-unstyled chat-list mt-2 mb-0">
+            @foreach (var user in OnlineUsers)
+            {
+                <li class="clearfix" @onclick="() => OnUserSelected.InvokeAsync(user)">
+                    <img src="Images/defaultavi.jpg" alt="avatar">
+                        <div class="about">
+                        <div class="name">@user</div>
+                            <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
+                        </div>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnUserSelected { get; set; }
+
+    [Parameter]
+    public List<string> OnlineUsers { get; set; } = null;
+}

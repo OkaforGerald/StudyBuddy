@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Services.Contracts
 {
-    public interface IServiceManager
+    public interface IMessageService
     {
-        IAuthService AuthService { get; }
-
-        IMessageService MessageService { get; }
+        Task<List<string>> GetMessagedPeople(string username);
     }
 }

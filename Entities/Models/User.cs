@@ -18,5 +18,10 @@ namespace Entities.Models
         public string? RefreshToken { get; set; }
 
         public DateTime? RefreshTokenExpiry { get; set; }
+
+        public ICollection<Message>? MessagesSent { get; set; }
+
+        public ICollection<Message>? MessagesReceived { get; set; }
+
     }
 }

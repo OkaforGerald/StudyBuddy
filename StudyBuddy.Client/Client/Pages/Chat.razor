@@ -1,96 +1,73 @@
 ﻿@page "/chat"
 @using Blazored.LocalStorage;
 @using Microsoft.AspNetCore.SignalR.Client
+@using StudyBuddy.Client.Client.Components
 @using StudyBuddy.Client.Client.HttpRepository;
 @inject NavigationManager navigationManager 
 @inject IMessageService messageService
 @inject IAuthenticationService authService
+@inject HttpInterceptorService Interceptor
 @implements IAsyncDisposable
 
-<style>
-    body {
-        background-color: #e5e5e5; /* Set a light background color */
-    }
-
-    h3 {
-        color: #128C7E; /* WhatsApp green color */
-    }
-
-    .row {
-        background-color: #fff; /* White background for the chat container */
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin: 20px auto;
-        padding: 20px;
-    }
-
-    label {
-        color: #128C7E; /* WhatsApp green color for labels */
-    }
-
-    input[type="text"] {
-        border: 1px solid #128C7E; /* WhatsApp green border for text input */
-        border-radius: 5px;
-        padding: 8px;
-        width: 100%;
-        margin-top: 5px;
-    }
-
-    button {
-        background-color: #128C7E; /* WhatsApp green button background */
-        color: #fff; /* White text color for the button */
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    button:disabled {
-        background-color: #ccc; /* Light gray for disabled button */
-        cursor: not-allowed;
-    }
-
-    pre {
-        background-color: #f0f0f0; /* Light gray background for chat messages */
-        padding: 10px;
-        border-radius: 5px;
-        overflow: auto;
-        max-height: 300px; /* Adjust the max-height as needed */
-    }
-
-    .col-md-4, .col-md-7 {
-        padding: 10px;
-    }
-
-    /* Add pink and purple accents */
-    .accent-purple {
-        color: #9b59b6;
-    }
-
-    .accent-pink {
-        color: #e74c3c;
-    }
-</style>
-
 <h3>Chat</h3>
-<div class="row">
-    <div class="col-md-4">
-        <div class="control-group">
-            <div>
-                <label for="broadcastMsg">Message</label>
-                <input @bind="message" type="text" id="broadcastMsg" name="broadcastMsg" />
-            </div>
-            <button @onclick="BroadcastMessage" disabled="@(!IsConnected)">Broadcast</button>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card chat-app">
+                    <!-- Include the UsersList component -->
+                    <UsersList OnlineUsers="onlineUsers" OnUserSelected="HandleUserSelected"/>
+        <!-- Main Chat Area -->
+                <div class="chat">
+                @if(otherUser is null)
+                {
+                    <h2>Select a user to start a conversation</h2>
+                }else{
+                        <div class="chat-header clearfix">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                    <img src="Images/defaultavi.jpg" alt="avatar">
+                                </a>
+                                <div class="chat-about">
+                                    <h6 class="m-b-0">@otherUser</h6>
+                                    <small>Last seen: 2 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 hidden-sm text-right">
+                                <div class=" float-right">
+                                <a href="javascript:void(0);" class="btn btn-outline-warning"><i class="oi oi-question-mark"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="chat-history">
+                            <ul class="m-b-0">
+                                @foreach (var message in messages)
+                                {
+                                    <li class="clearfix">
+                                        <div class="message-data float-right">
+                                            <span class="message-data-time">10:10 AM, Today</span>
+                                            <img src="Images/defaultavi.jpg" alt="avatar"/>
+                                        </div>
+                                        <br/>
+                                    <div class="message other-message float-right">@message </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="chat-message clearfix">
+                                <div class="input-group mb-0">
+                                    <div class="input-group-prepend">
+                                    <button class="send-button" @onclick="BroadcastMessage" disabled="@(!IsConnected)"><span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M2.01 21L23 12L2.01 3L2 10l15 2l-15 2z" /></svg></span></button>
+                                    </div>
+                                    <input @bind="message" type = "text" id = "broadcastMsg" name = "broadcastMsg" class="form-control" placeholder="Enter text here..."/>
+                                </div>
+                            </div>
+                      }
+                        </div>
+                </div>
         </div>
-    </div>
-    <div class="col-md-7">
-        <p class="accent-purple">SignalR Messages:</p>
-        <pre class="accent-pink">
-            @foreach (var message in messages)
-            {
-                @message<br />
-            }
-        </pre>
     </div>
 </div>
 
