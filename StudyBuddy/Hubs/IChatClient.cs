@@ -1,7 +1,9 @@
-﻿namespace StudyBuddy.Hubs
+﻿using Entities.Models;
+
+namespace StudyBuddy.Hubs
 {
     public interface IChatClient
     {
-        Task ReceiveMessage(string message);
+        Task ReceiveMessage(Message message);
     }
 }

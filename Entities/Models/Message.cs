@@ -13,6 +13,10 @@ namespace Entities.Models
 
         public string? messageContent { get; set; }
 
+        public string? RecipientUsername {  get; set; }
+
+        public string? SnederUsername { get; set; }
+
         [ForeignKey(nameof(Sender))]
         public string SenderId { get; set; }
         public User? Sender { get; set; }

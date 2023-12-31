@@ -25,7 +25,8 @@
 
 ::deep .chat-app .chat {
     margin-left: 280px;
-    border-left: 1px solid #eaeaea
+    border-left: 1px solid #eaeaea;
+    height: 550px;
 }
 
 ::deep .people-list {
@@ -172,7 +173,8 @@
 
         .chat .chat-history .other-message:after {
             border-bottom-color: #e8f1f3;
-            left: 93%
+            left: 90%;
+            position: fixed
         }
 
 .chat .chat-message {
@@ -210,6 +212,12 @@
     content: " ";
     clear: both;
     height: 0
+}
+
+div.sticky{
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
 }
 
 @media only screen and (max-width: 767px) {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Entities.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
 using Shared;
@@ -12,7 +13,7 @@ namespace StudyBuddy.Client.Client.Pages
         private HubConnection hubConnection;
         private List<string> onlineUsers = new List<string>();
         private string? otherUser = null;
-        private List<string> messages = new List<string>();
+        private List<Message> messages = new List<Message>();
         private string? message;
 
         protected override async Task OnInitializedAsync()
@@ -36,7 +37,7 @@ namespace StudyBuddy.Client.Client.Pages
 
             hubConnection = await messageService.ConfigureHubConnection(otherUser);
 
-            hubConnection.On<string>("ReceiveMessage", (message) =>
+            hubConnection.On<Message>("ReceiveMessage", (message) =>
             {
                 messages.Add(message);
                 StateHasChanged();

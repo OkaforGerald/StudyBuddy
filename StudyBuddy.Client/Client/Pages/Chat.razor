@@ -41,22 +41,33 @@
                         </div>
                         </div>
 
-                        <div class="chat-history">
+                        <div class="chat-history" style="overflow-y: scroll; height: 400px;">
                             <ul class="m-b-0">
                                 @foreach (var message in messages)
                                 {
                                     <li class="clearfix">
-                                        <div class="message-data float-right">
-                                            <span class="message-data-time">10:10 AM, Today</span>
+              @*                           <div class="message-data float-right">
+                                            <span class="message-data-time">@message.CreatedAt.ToString("h:mm tt"), @( message.CreatedAt.DayOfWeek.Equals(DateTime.Now.DayOfWeek) ?  "Today" : @message.CreatedAt.DayOfWeek)</span>
                                             <img src="Images/defaultavi.jpg" alt="avatar"/>
                                         </div>
-                                        <br/>
-                                    <div class="message other-message float-right">@message </div>
+                                        <br/><br/><br/> *@
+                                        @if(message.SnederUsername != otherUser){
+                                            <div class="message-data float-right">
+                                                <span class="message-data-time">@message.CreatedAt.ToString("h:mm tt"), @(message.CreatedAt.DayOfWeek.Equals(DateTime.Now.DayOfWeek) ? "Today" : @message.CreatedAt.DayOfWeek)</span>
+                                                <img src="Images/defaultavi.jpg" alt="avatar" />
+                                            </div>
+                                            <br /><br /><br />
+                                            <div class="message other-message float-right">@message.messageContent</div>
+                                        }else{
+                                            <span class="message-data-time">@message.CreatedAt.ToString("h:mm tt"), @(message.CreatedAt.DayOfWeek.Equals(DateTime.Now.DayOfWeek) ? "Today" : @message.CreatedAt.DayOfWeek)</span>
+                                            <br /><br />
+                                            <div class="message my-message">@message.messageContent</div>
+                                        }
                                     </li>
                                 }
                             </ul>
                         </div>
-                        <div class="chat-message clearfix">
+                        <div class="chat-message clearfix sticky">
                                 <div class="input-group mb-0">
                                     <div class="input-group-prepend">
                                     <button class="send-button" @onclick="BroadcastMessage" disabled="@(!IsConnected)"><span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M2.01 21L23 12L2.01 3L2 10l15 2l-15 2z" /></svg></span></button>
