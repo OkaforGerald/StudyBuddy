@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
-using Shared;
+using Shared.Data_Transfer;
 
 namespace StudyBuddy.Client.Client.Pages
 {
@@ -13,33 +13,50 @@ namespace StudyBuddy.Client.Client.Pages
         private HubConnection hubConnection;
         private List<string> onlineUsers = new List<string>();
         private string? otherUser = null;
-        private List<Message> messages = new List<Message>();
-        private string? message;
+        private List<HubMessage> messages = new List<HubMessage>();
+        private string? message = String.Empty;
 
         protected override async Task OnInitializedAsync()
         {
-            //var auth = await authService.RefreshToken();
-
             Interceptor.RegisterEvent();
             onlineUsers = await messageService.GetContacts();
         }
 
         public async Task BroadcastMessage()
         {
-            await hubConnection.SendAsync("BroadcastMessage",otherUser, message);
+            try
+            {
+                await hubConnection.SendAsync("BroadcastMessage", otherUser, message);
+                message = "";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
 
         private async Task HandleUserSelected(string SelectedUser)
         {
+            if(hubConnection != null)
+            {
+                await hubConnection.DisposeAsync();
+            }
+
             otherUser = SelectedUser;
 
             hubConnection = await messageService.ConfigureHubConnection(otherUser);
 
-            hubConnection.On<Message>("ReceiveMessage", (message) =>
+            hubConnection.On<HubMessage>("ReceiveMessage", (message) =>
             {
                 messages.Add(message);
+                StateHasChanged();
+            });
+
+            hubConnection.On<List<HubMessage>>("ReceiveThread", (Thread) =>
+            {
+                messages = Thread;
                 StateHasChanged();
             });
 
@@ -57,7 +74,10 @@ namespace StudyBuddy.Client.Client.Pages
         public async ValueTask DisposeAsync()
         {
             Interceptor.DisposeEvent();
-            await hubConnection.DisposeAsync();
+            if (hubConnection != null)
+            {
+                await hubConnection.DisposeAsync();
+            }
         }
 }
 }

@@ -20,7 +20,7 @@ namespace Services
         public ServiceManager(IMapper mapper, UserManager<User> userManager, IConfiguration config, IRepositoryManager manager)
         {
             _authService = new Lazy<IAuthService> (new AuthService(mapper, userManager, config));
-            _messageService = new Lazy<IMessageService>(new MessageService(manager, userManager));
+            _messageService = new Lazy<IMessageService>(new MessageService(manager, userManager, mapper));
         }
         public IAuthService AuthService => _authService.Value;
 

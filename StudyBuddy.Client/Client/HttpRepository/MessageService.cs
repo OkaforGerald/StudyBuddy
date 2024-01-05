@@ -22,13 +22,6 @@ namespace StudyBuddy.Client.Client.HttpRepository
         {
             string authToken = await _localStorageService.GetItemAsync<string>("authToken");
 
-            //HubConnection hubConnection = new HubConnectionBuilder()
-            //   .WithUrl($"https://localhost:7011/chat?access_token={authToken}", options =>
-            //   {
-            //       options.AccessTokenProvider = () => Task.FromResult(authToken);
-            //   })
-            //   .Build();
-
             HubConnection hubConnection = new HubConnectionBuilder()
                .WithUrl($"https://localhost:7011/chat?otherUser={otherUser}", options =>
                {

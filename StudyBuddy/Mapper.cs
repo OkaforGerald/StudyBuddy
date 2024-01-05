@@ -9,6 +9,8 @@ namespace StudyBuddy
         public Mapper()
         {
             CreateMap<UserCreationDto, User>();
+
+            CreateMap<Message, HubMessage>();
         }
     }
 }

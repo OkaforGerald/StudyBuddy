@@ -12,6 +12,7 @@ using Repository;
 using Services;
 using Services.Contracts;
 using StudyBuddy.Hubs;
+using WatchDog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +21,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(StudyBuddy.Presentation.AssemblyReference).Assembly);
 builder.Services.AddSignalR();
+builder.Services.AddWatchDogServices();
 builder.Services.AddSingleton<IUserIdProvider, ChatUserIdProvider>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSingleton<ClientHandler>();
 builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", opt =>
 {
     opt.AllowAnyHeader()
@@ -129,6 +132,16 @@ app.MapHub<ChatClient>("/chat");
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseWatchDogExceptionLogger();
+
+app.UseWatchDog(opt =>
+{
+    opt.WatchPageUsername = "admin";
+    opt.WatchPagePassword = "admin";
+
+    opt.CorsPolicy = "CorsPolicy";
+});
 
 app.MapControllers();
 
