@@ -32,6 +32,8 @@ namespace StudyBuddy.Presentation.Controllers
 
                 var people = await serviceManager.MessageService.GetMessagedPeople(username);
 
+                // serviceManager.PublishMessageService.EnqueueMessage(people);
+
                 return Ok(people);
             }catch(Exception ex)
             {

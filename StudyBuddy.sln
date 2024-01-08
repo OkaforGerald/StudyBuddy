@@ -7,19 +7,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyBuddy", "StudyBuddy\St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyBuddy.Client.Client", "StudyBuddy.Client\Client\StudyBuddy.Client.Client.csproj", "{FAE6B99D-2A47-47DC-88FE-C1FBE4C20C42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{F883BAD1-169F-4F35-BC01-3E33099BA8DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{F883BAD1-169F-4F35-BC01-3E33099BA8DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.Contracts", "Services.Contracts\Services.Contracts.csproj", "{06711530-CC7A-4F2F-912E-CF9311951EF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Contracts", "Services.Contracts\Services.Contracts.csproj", "{06711530-CC7A-4F2F-912E-CF9311951EF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{2D6A43D3-66BE-4912-A90E-FFE96811AAC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{2D6A43D3-66BE-4912-A90E-FFE96811AAC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{FBC11598-C37A-4C89-9DFE-DC9B800FCB0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{FBC11598-C37A-4C89-9DFE-DC9B800FCB0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{7642A027-1670-45EB-A2DF-6A17C48ABC6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{7642A027-1670-45EB-A2DF-6A17C48ABC6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{9EC5F845-7087-41DA-B5D8-1B3902794AD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{9EC5F845-7087-41DA-B5D8-1B3902794AD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyBuddy.Presentation", "StudyBuddy.Presentation\StudyBuddy.Presentation.csproj", "{4DE4C26A-C626-45AC-B5C2-E51EB00A25C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyBuddy.Presentation", "StudyBuddy.Presentation\StudyBuddy.Presentation.csproj", "{4DE4C26A-C626-45AC-B5C2-E51EB00A25C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

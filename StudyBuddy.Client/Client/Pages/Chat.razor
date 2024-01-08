@@ -1,4 +1,6 @@
 ﻿@page "/chat"
+@page "/chat/{user}"
+
 @using Blazored.LocalStorage;
 @using Microsoft.AspNetCore.SignalR.Client
 @using StudyBuddy.Client.Client.Components
@@ -25,7 +27,7 @@
                         <div class="chat-header clearfix">
                         <div class="row">
                             <div class="col-lg-6">
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                <a href="users/@otherUser" data-toggle="modal" data-target="#view_info">
                                     <img src="Images/defaultavi.jpg" alt="avatar">
                                 </a>
                                 <div class="chat-about">
@@ -72,7 +74,7 @@
                                     <div class="input-group-prepend">
                                     <button class="send-button" @onclick="BroadcastMessage" disabled="@(!IsConnected && !message.Trim().Equals(String.Empty))"><span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M2.01 21L23 12L2.01 3L2 10l15 2l-15 2z" /></svg></span></button>
                                     </div>
-                                    <input @bind="message" type = "text" id = "broadcastMsg" name = "broadcastMsg" class="form-control" placeholder="Enter text here..." autocomplete="off"/>
+                                    <input @bind="message" type = "text" id = "broadcastMsg" name = "broadcastMsg" class="form-control" placeholder="Enter text here..." autocomplete="off" autofocus/>
                                 </div>
                             </div>
                       }

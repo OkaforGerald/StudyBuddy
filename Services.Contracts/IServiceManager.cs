@@ -11,5 +11,7 @@ namespace Services.Contracts
         IAuthService AuthService { get; }
 
         IMessageService MessageService { get; }
+
+        IPublishMessageService PublishMessageService { get; }
     }
 }

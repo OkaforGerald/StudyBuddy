@@ -10,6 +10,8 @@ namespace StudyBuddy.Client.Client.Pages
     {
         [CascadingParameter(Name ="AuthenticationState")]
         public AuthenticationState AuthenticationState { get; set; }
+        [Parameter]
+        public string User { get; set; }
         private HubConnection hubConnection;
         private List<string> onlineUsers = new List<string>();
         private string? otherUser = null;
@@ -20,6 +22,14 @@ namespace StudyBuddy.Client.Client.Pages
         {
             Interceptor.RegisterEvent();
             onlineUsers = await messageService.GetContacts();
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            if(User is not null)
+            {
+                await HandleUserSelected(User);
+            }
         }
 
         public async Task BroadcastMessage()

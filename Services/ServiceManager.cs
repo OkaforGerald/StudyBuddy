@@ -16,14 +16,18 @@ namespace Services
     {
         private readonly Lazy<IAuthService> _authService;
         private readonly Lazy<IMessageService> _messageService;
+        private readonly Lazy<IPublishMessageService> _publishService;
 
         public ServiceManager(IMapper mapper, UserManager<User> userManager, IConfiguration config, IRepositoryManager manager)
         {
             _authService = new Lazy<IAuthService> (new AuthService(mapper, userManager, config));
             _messageService = new Lazy<IMessageService>(new MessageService(manager, userManager, mapper));
+            _publishService = new Lazy<IPublishMessageService>(new PublishMessageService());
         }
         public IAuthService AuthService => _authService.Value;
 
         public IMessageService MessageService => _messageService.Value;
+
+        public IPublishMessageService PublishMessageService => _publishService.Value;
     }
 }
