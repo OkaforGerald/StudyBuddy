@@ -1,7 +1,5 @@
 ﻿@page "/"
 
-<h3>Login</h3>
-
 @if (ShowAuthenticationErrors)
 {
     <div class="alert alert-danger" role="alert">
@@ -9,27 +7,59 @@
     </div>
 }
 
-<EditForm Model="_userForAuthentication" OnValidSubmit="ExecuteLogin" class="card card-body bg-light mt-5">
-    <DataAnnotationsValidator />
-    <div class="form-group row">
-        <label for="email" class="col-md-2 col-form-label">Email:</label>
-        <div class="col-md-10">
-            <InputText id="email" class="form-control" @bind-Value="_userForAuthentication.Email" />
-            <ValidationMessage For="@(() => _userForAuthentication.Email)" />
-        </div>
-    </div>
+<div id="main-wrapper" class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-10">
+            <div class="card border-0">
+                <div class="card-body p-0">
+                    <div class="row no-gutters">
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="mb-4">
+                                    <h3 class="h4 font-weight-bold text-theme"><b>Login</b></h3>
+                                </div>
 
-    <div class="form-group row">
-        <label for="password" class="col-md-2 col-form-label">Password:</label>
-        <div class="col-md-10">
-            <InputText type="password" id="password" class="form-control" @bind-Value="_userForAuthentication.Password" />
-            <ValidationMessage For="@(() => _userForAuthentication.Password)" />
-        </div>
-    </div>
+                                <h6 class="h5 mb-0">Welcome back!</h6>
+                                <p class="text-muted mt-2 mb-4">Enter your email address and password to access the application</p>
 
-    <div class="row">
-        <div class="col-md-12 text-right">
-            <button type="submit" class="btn btn-success">Login</button>
+                                <EditForm Model="_userForAuthentication" OnValidSubmit="ExecuteLogin" class="mb-4">
+                                    <DataAnnotationsValidator />
+
+                                    <div class="form-group">
+                                        <label for="InputEmail">Email address</label>
+                                        <InputText id="InputEmail" class="form-control" @bind-Value="_userForAuthentication.Email" />
+                                        <ValidationMessage For="@(() => _userForAuthentication.Email)" />
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label for="InputPassword">Password</label>
+                                        <InputText type="password" id="InputPassword" class="form-control" @bind-Value="_userForAuthentication.Password" />
+                                        <ValidationMessage For="@(() => _userForAuthentication.Password)" />
+                                    </div>
+
+                                    <button type="submit" class="btn btn-theme">Login</button>
+                                </EditForm>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 d-none d-lg-inline-block">
+                            <div class="account-block rounded-right">
+                                <div class="overlay rounded-right"></div>
+                                <div class="account-testimonial">
+                                    <h4 class="text-white mb-2">Study Buddy</h4>
+                                    <p class="lead text-white"><i>Bridging Gaps</i></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end card-body -->
+            </div>
+            <!-- end card -->
+
+            <p class="text-muted text-center mt-3 mb-0">Don't have an account? <a href="register" class="text-primary ml-1">Register</a></p>
         </div>
+        <!-- end col -->
     </div>
-</EditForm>
+    <!-- Row -->
+</div>
