@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities.Models;
-using Shared.Data_Transfer;
+using SharedAPI.Data;
 
 namespace Services.Contracts
 {
     public interface IMessageService
     {
-        Task<List<string>> GetMessagedPeople(string username);
+        Task<List<MessagedPeople>> GetMessagedPeople(string username);
 
         Task<HubMessage> CreateMessage(string currentUser, string otherUser, string message);
 

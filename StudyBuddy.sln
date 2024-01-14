@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Contracts", "Servi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{2D6A43D3-66BE-4912-A90E-FFE96811AAC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{FBC11598-C37A-4C89-9DFE-DC9B800FCB0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedAPI", "Shared\SharedAPI.csproj", "{FBC11598-C37A-4C89-9DFE-DC9B800FCB0F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{7642A027-1670-45EB-A2DF-6A17C48ABC6B}"
 EndProject

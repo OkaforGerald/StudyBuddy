@@ -7,7 +7,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
-using Shared.Data_Transfer;
+using SharedAPI.Data;
 
 namespace StudyBuddy.Presentation.Controllers
 {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
-using Shared.Data_Transfer;
+using SharedAPI.Data;
 
 namespace StudyBuddy.Client.Client.Pages
 {
@@ -13,8 +13,8 @@ namespace StudyBuddy.Client.Client.Pages
         [Parameter]
         public string User { get; set; }
         private HubConnection hubConnection;
-        private List<string> onlineUsers = new List<string>();
-        private string? otherUser = null;
+        private List<MessagedPeople> onlineUsers = new List<MessagedPeople>();
+        private MessagedPeople? otherUser = null;
         private List<HubMessage> messages = new List<HubMessage>();
         private string? message = String.Empty;
 
@@ -54,9 +54,9 @@ namespace StudyBuddy.Client.Client.Pages
                 await hubConnection.DisposeAsync();
             }
 
-            otherUser = SelectedUser;
+            otherUser = onlineUsers.Where(x => x.UserName.Equals(SelectedUser)).FirstOrDefault();
 
-            hubConnection = await messageService.ConfigureHubConnection(otherUser);
+            hubConnection = await messageService.ConfigureHubConnection(otherUser?.UserName);
 
             hubConnection.On<HubMessage>("ReceiveMessage", (message) =>
             {

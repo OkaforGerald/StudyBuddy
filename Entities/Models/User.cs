@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using static System.Net.WebRequestMethods;
 
 namespace Entities.Models
 {
@@ -15,6 +16,9 @@ namespace Entities.Models
 
         public string? Bio { get; set; }
 
+        //Change this url before live
+        public string? ImageUrl { get; set; } = @"https://localhost:7122/Images/defaultavi.jpg";
+
         public string? RefreshToken { get; set; }
 
         public DateTime? RefreshTokenExpiry { get; set; }
@@ -22,6 +26,5 @@ namespace Entities.Models
         public ICollection<Message>? MessagesSent { get; set; }
 
         public ICollection<Message>? MessagesReceived { get; set; }
-
     }
 }

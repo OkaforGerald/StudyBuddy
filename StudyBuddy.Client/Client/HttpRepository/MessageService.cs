@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.SignalR.Client;
+using SharedAPI.Data;
 
 namespace StudyBuddy.Client.Client.HttpRepository
 {
@@ -32,7 +33,7 @@ namespace StudyBuddy.Client.Client.HttpRepository
             return hubConnection;
         }
 
-        public async Task<List<string>> GetContacts()
+        public async Task<List<MessagedPeople>> GetContacts()
         {
             var response = await _client.GetAsync("messages/contacts");
             var content = await response.Content.ReadAsStringAsync();
@@ -41,7 +42,7 @@ namespace StudyBuddy.Client.Client.HttpRepository
                 throw new ApplicationException(content);
             }
 
-            var users = JsonSerializer.Deserialize<List<string>>(content, _options);
+            var users = JsonSerializer.Deserialize<List<MessagedPeople>>(content, _options);
             return users;
         }
     }

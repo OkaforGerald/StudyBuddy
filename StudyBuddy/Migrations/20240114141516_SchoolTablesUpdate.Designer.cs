@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,10 @@ using Repository;
 namespace StudyBuddy.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240114141516_SchoolTablesUpdate")]
+    partial class SchoolTablesUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,9 +119,6 @@ namespace StudyBuddy.Migrations
 
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
 
                     b.Property<Guid>("UserDetailsId")
                         .HasColumnType("uniqueidentifier");
@@ -293,14 +292,14 @@ namespace StudyBuddy.Migrations
                         new
                         {
                             Id = "1eeb37db-b804-4aad-a378-bcf2ba93e82b",
-                            ConcurrencyStamp = "7a260801-2177-450c-851e-bbea6d18a874",
+                            ConcurrencyStamp = "db9cf95d-d3cf-4468-be4c-03bf8f13ff8c",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "1bb823f0-2d92-47e8-be60-b2187df3555d",
-                            ConcurrencyStamp = "b6c2451a-a4c7-4615-9996-6ac47ee8f9eb",
+                            ConcurrencyStamp = "d3303bb6-6320-4e0a-8fda-4c7aed362577",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

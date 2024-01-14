@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Shared.Data_Transfer;
+using SharedAPI.Data;
 
 namespace Services.Contracts
 {

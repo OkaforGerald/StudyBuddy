@@ -4,7 +4,8 @@
 @using Blazored.LocalStorage;
 @using Microsoft.AspNetCore.SignalR.Client
 @using StudyBuddy.Client.Client.Components
-@using StudyBuddy.Client.Client.HttpRepository;
+@using StudyBuddy.Client.Client.HttpRepository
+@using SharedAPI.Data
 @inject NavigationManager navigationManager 
 @inject IMessageService messageService
 @inject IAuthenticationService authService
@@ -22,13 +23,13 @@
                 <div class="chat">
                 @if(otherUser is null)
                 {
-                    <h2>Select a user to start a conversation</h2>
+                    <h2 style="position: center">Select a user to start a conversation</h2>
                 }else{
                         <div class="chat-header clearfix">
                         <div class="row">
                             <div class="col-lg-6">
-                                <a href="users/@otherUser" data-toggle="modal" data-target="#view_info">
-                                    <img src="Images/defaultavi.jpg" alt="avatar">
+                                <a href="users/@otherUser.UserName" data-toggle="modal" data-target="#view_info">
+                                    <img src="@otherUser.UserName" alt="avatar">
                                 </a>
                                 <div class="chat-about">
                                     <h6 class="m-b-0">@otherUser</h6>
@@ -53,7 +54,7 @@
                                             <img src="Images/defaultavi.jpg" alt="avatar"/>
                                         </div>
                                         <br/><br/><br/> *@
-                                        @if(message.SnederUsername != otherUser){
+                                        @if(message.SnederUsername != otherUser.UserName){
                                             <div class="message-data float-right">
                                                 <span class="message-data-time">@message.CreatedAt.ToString("h:mm tt"), @(message.CreatedAt.DayOfWeek.Equals(DateTime.Now.DayOfWeek) ? "Today" : @message.CreatedAt.DayOfWeek)</span>
                                                 <img src="Images/defaultavi.jpg" alt="avatar" />

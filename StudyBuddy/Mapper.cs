@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Entities.Models;
-using Shared.Data_Transfer;
+using SharedAPI.Data;
 
 namespace StudyBuddy
 {

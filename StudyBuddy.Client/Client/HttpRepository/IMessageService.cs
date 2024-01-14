@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using SharedAPI.Data;
 
 namespace StudyBuddy.Client.Client.HttpRepository
 {
@@ -6,6 +7,6 @@ namespace StudyBuddy.Client.Client.HttpRepository
     {
         Task<HubConnection> ConfigureHubConnection(string? OtherUser = null);
 
-        Task<List<string>> GetContacts();
+        Task<List<MessagedPeople>> GetContacts();
     }
 }

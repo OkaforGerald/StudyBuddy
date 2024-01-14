@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Shared.Data_Transfer;
+using SharedAPI.Data;
 using StudyBuddy.Client.Client.HttpRepository;
 
 namespace StudyBuddy.Client.Client.Pages

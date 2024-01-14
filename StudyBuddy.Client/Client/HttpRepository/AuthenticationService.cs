@@ -1,10 +1,10 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
-using Shared.Data_Transfer;
 using StudyBuddy.Client.Client.AuthProviders;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
+using SharedAPI.Data;
 
 namespace StudyBuddy.Client.Client.HttpRepository
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Data_Transfer
+namespace SharedAPI.Data
 {
     public record AuthenticationResponseDto
     {

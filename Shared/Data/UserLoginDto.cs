@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Data_Transfer
+namespace SharedAPI.Data
 {
-    public record TokenDto
+    public record UserLoginDto
     {
         [Required]
-        public string? accessToken { get; init; }
+        [EmailAddress]
+        public string? Email { get; set; }
 
         [Required]
-        public string? refreshToken { get; init; }
+        public string? Password { get; set; }
     }
 }

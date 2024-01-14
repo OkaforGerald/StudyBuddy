@@ -1,4 +1,4 @@
-﻿using Shared.Data_Transfer;
+﻿using SharedAPI.Data;
 
 namespace StudyBuddy.Client.Client.HttpRepository
 {

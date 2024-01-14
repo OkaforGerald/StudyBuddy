@@ -7,9 +7,8 @@ using AutoMapper;
 using Contracts;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Services.Contracts;
-using Shared.Data_Transfer;
+using SharedAPI.Data;
 
 namespace Services
 {
@@ -26,7 +25,7 @@ namespace Services
             this.mapper = mapper;
         }
 
-        public async Task<List<string>> GetMessagedPeople(string username)
+        public async Task<List<MessagedPeople>> GetMessagedPeople(string username)
         {
             var user = await userManager.FindByNameAsync(username);
 
@@ -37,7 +36,8 @@ namespace Services
 
             var peopleSet = manager.MessageRepository.GetContacts(user.Id);
 
-            var peopleMessaged = peopleSet.Select(x => userManager.FindByIdAsync(x).Result.UserName)
+            var peopleMessaged = peopleSet.Select(x => new MessagedPeople {UserName = userManager.FindByIdAsync(x).Result.UserName,
+                                                                           ImageUrl = userManager.FindByIdAsync(x).Result.ImageUrl})
                 .ToList();
 
             return peopleMessaged;
