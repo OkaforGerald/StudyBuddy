@@ -7,6 +7,7 @@ using AutoMapper;
 using Contracts;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 using Services.Contracts;
 
@@ -16,6 +17,7 @@ namespace Services
     {
         private readonly Lazy<IAuthService> _authService;
         private readonly Lazy<IMessageService> _messageService;
+        private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IPublishMessageService> _publishService;
 
         public ServiceManager(IMapper mapper, UserManager<User> userManager, IConfiguration config, IRepositoryManager manager)
@@ -23,11 +25,14 @@ namespace Services
             _authService = new Lazy<IAuthService> (new AuthService(mapper, userManager, config));
             _messageService = new Lazy<IMessageService>(new MessageService(manager, userManager, mapper));
             _publishService = new Lazy<IPublishMessageService>(new PublishMessageService());
+            _userService = new Lazy<IUserService>(new UserService(manager, mapper, userManager));
         }
         public IAuthService AuthService => _authService.Value;
 
         public IMessageService MessageService => _messageService.Value;
 
         public IPublishMessageService PublishMessageService => _publishService.Value;
+
+        public IUserService UserService => _userService.Value;
     }
 }

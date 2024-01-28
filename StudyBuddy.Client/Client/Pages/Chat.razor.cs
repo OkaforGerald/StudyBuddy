@@ -36,7 +36,7 @@ namespace StudyBuddy.Client.Client.Pages
         {
             try
             {
-                await hubConnection.SendAsync("BroadcastMessage", otherUser, message);
+                await hubConnection.SendAsync("BroadcastMessage", otherUser.UserName, message);
                 message = "";
             }
             catch (Exception ex)

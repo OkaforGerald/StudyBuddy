@@ -9,6 +9,6 @@ namespace Contracts
 {
     public interface IUserRepository
     {
-        List<UserDetails> GetUserDetails(string id, bool trackChanges);
+        Task<UserDetails> GetUserDetails(string id, bool trackChanges);
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -12,10 +13,11 @@ namespace Repository
     {
         public UserRepository(RepositoryContext context) : base(context) { }
 
-        public List<UserDetails> GetUserDetails(string id, bool trackChanges)
+        public async Task<UserDetails> GetUserDetails(string id, bool trackChanges)
         {
-            return FindByCondition(x => x.UserId == id, trackChanges)
-                .ToList();
+            return await FindByCondition(x => x.UserId == id, trackChanges)
+                .Include(x => x.Course)
+                .FirstOrDefaultAsync();
         }
     }
 }

@@ -10,6 +10,16 @@ namespace Contracts
     {
         IMessageRepository MessageRepository { get; }
 
+        IUserRepository UserRepository { get; }
+
+        ISelectionRepository SelectionRepository { get; }
+
+        ICourseRepository CourseRepository { get; }
+
+        ICourseOfStudyRepository CourseOfStudyRepository { get; }
+
+        IDepartmentRepository DepartmentRepository { get; }
+
         Task Save();
     }
 }
