@@ -30,6 +30,13 @@
                                 <h4>@details.Username</h4>
                                 <p class="text-secondary mb-1">Software Developer</p>
                                 <p class="text-muted font-size-sm"><b>24</b> Matches</p>
+                                <div>
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <span class="star @(i <= details.Rating ? "selected" : "")" @onclick="() => SetRating(i)">★</span>
+                                    }
+                                    <text>(@details.RatedBy)</text>
+                                </div>
                                 <button class="btn btn-primary">Match</button>
                                 <button class="btn btn-outline-primary"><a href="chat/@UserName" style="text-decoration: none">Message</a></button>
                             </div>

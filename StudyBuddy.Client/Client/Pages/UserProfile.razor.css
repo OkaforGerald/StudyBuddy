@@ -56,3 +56,14 @@
 .shadow-none {
     box-shadow: none !important;
 }
+
+.star {
+    font-size: 24px;
+    cursor: pointer;
+    color: gray;
+    margin-right: 5px;
+}
+
+.selected {
+    color: gold;
+}
