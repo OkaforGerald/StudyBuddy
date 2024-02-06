@@ -4,7 +4,7 @@ using StudyBuddy.Client.Client.HttpRepository;
 
 namespace StudyBuddy.Client.Client.Pages
 {
-    public partial class Index
+    public partial class Login
     {
         private UserLoginDto _userForAuthentication = new UserLoginDto();
 

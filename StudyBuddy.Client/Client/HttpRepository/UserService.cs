@@ -1,5 +1,8 @@
 ﻿using System.Text.Json;
+using Microsoft.AspNetCore.WebUtilities;
 using SharedAPI.Data;
+using SharedAPI.RequestFeatures;
+using StudyBuddy.Client.Client.Features;
 
 namespace StudyBuddy.Client.Client.HttpRepository
 {
@@ -25,6 +28,30 @@ namespace StudyBuddy.Client.Client.HttpRepository
 
             var details = JsonSerializer.Deserialize<UserDetailsDto>(content, _options);
             return details;
+        }
+
+        public async Task<PagingResponse<UsersDto>> GetUsers(RequestParameters parameters)
+        {
+            var queryStringParam = new Dictionary<string, string>()
+            {
+                ["PageNumber"] = parameters.PageNumber.ToString(),
+                ["SearchTerm"] = parameters.SearchTerm == null ? "" : parameters.SearchTerm
+            };
+
+            var response = await _client.GetAsync(QueryHelpers.AddQueryString("users", queryStringParam));
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+
+            var pagingResponse = new PagingResponse<UsersDto>
+            {
+                Items = JsonSerializer.Deserialize<List<UsersDto>>(content, _options),
+                Metadata = JsonSerializer.Deserialize<Metadata>(response.Headers.GetValues("X-Pagination").First(), _options)
+            };
+
+            return pagingResponse;
         }
     }
 }

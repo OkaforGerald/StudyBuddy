@@ -29,7 +29,8 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", opt =>
 {
     opt.AllowAnyHeader()
     .AllowAnyMethod()
-    .AllowAnyOrigin();
+    .AllowAnyOrigin()
+    .WithExposedHeaders("X-Pagination");
 }));
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>

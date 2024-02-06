@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Contracts;
 using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using SharedAPI.RequestFeatures;
 
 namespace Repository
 {
@@ -19,5 +20,6 @@ namespace Repository
                 .Include(x => x.Course)
                 .FirstOrDefaultAsync();
         }
+
     }
 }

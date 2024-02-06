@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
+using SharedAPI.RequestFeatures;
 
 namespace StudyBuddy.Presentation.Controllers
 {
@@ -57,6 +59,17 @@ namespace StudyBuddy.Presentation.Controllers
                     ErrorMessage = ex.Message,
                 });
             }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetUsers([FromQuery] RequestParameters parameters)
+        {
+            var result = await serviceManager.UserService.GetUsers(parameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.metadata));
+
+            return Ok(result.users);
         }
     }
 }
