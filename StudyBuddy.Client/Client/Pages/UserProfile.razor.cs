@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using System.Formats.Asn1;
+using Entities.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 using SharedAPI.Data;
@@ -18,6 +19,18 @@ namespace StudyBuddy.Client.Client.Pages
         {
             Interceptor.RegisterEvent();
             details = await UserService.GetUserDetails(UserName);
+        }
+
+        private async Task Match(string username)
+        {
+            await MatchService.CreateMatch(username);
+            details.MatchStatus = "Pending";
+        }
+
+        private async Task AckMatch(string username)
+        {
+            await MatchService.AckMatch(username);
+            details.MatchStatus = "Friends";
         }
 
         private void SetRating(int rating)

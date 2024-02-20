@@ -2,6 +2,7 @@
 @using StudyBuddy.Client.Client.HttpRepository;
 @inject HttpInterceptorService Interceptor
 @inject IUserService UserService
+@inject IMatchService MatchService
 @inject NavigationManager Manager
 @inject IJSRuntime JSRuntime
 @implements IAsyncDisposable
@@ -29,7 +30,7 @@
                             <div class="mt-3">
                                 <h4>@details.Username</h4>
                                 <p class="text-secondary mb-1">Software Developer</p>
-                                <p class="text-muted font-size-sm"><b>24</b> Matches</p>
+                                <p class="text-muted font-size-sm"><b>@details.MatchCount</b> Matche(s)</p>
                                 <div>
                                     @for (int i = 1; i <= 5; i++)
                                     {
@@ -37,8 +38,30 @@
                                     }
                                     <text>(@details.RatedBy)</text>
                                 </div>
-                                <button class="btn btn-primary">Match</button>
-                                <button class="btn btn-outline-primary"><a href="chat/@UserName" style="text-decoration: none">Message</a></button>
+                                @if (details.MatchStatus is not null)
+                                {
+                                    if (!details.RequestedByOwner && details.MatchStatus.Equals("No Match"))
+                                    {
+                                        <button class="btn btn-primary" @onclick="() => Match(details?.Username)">Match</button>
+                                    }
+                                    else if (!details.RequestedByOwner && details.MatchStatus.Equals("Pending"))
+                                    {
+                                        <button class="btn btn-secondary">Pending</button>
+                                    }
+                                    else if (!details.RequestedByOwner && details.MatchStatus.Equals("PendingAck"))
+                                    {
+                                        <button class="btn btn-primary" @onclick="()=> AckMatch(details?.Username)">Acknowledge Match</button>
+                                    }
+                                    else if (!details.RequestedByOwner && details.MatchStatus.Equals("Friends"))
+                                    {
+                                        <span class="oi oi-person" aria-hidden="true"></span>
+                                        <button class="btn btn-outline-primary"><a href="chat/@UserName" style="text-decoration: none">Message</a></button>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Loading...</p>
+                                }
                             </div>
                         </div>
                     </div>

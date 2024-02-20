@@ -32,13 +32,17 @@ namespace Repository
                 .HasOne(m => m.Sender)
                 .WithMany(m => m.MessagesSent)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
         }
 
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseOfStudy> courseOfStudies { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<ProficiencySelection> ProficiencySelections { get; set; }
+        public DbSet<Match> Matches { get; set; }   
         public DbSet<UserDetails> UserDetails { get; set; }
     }
 }

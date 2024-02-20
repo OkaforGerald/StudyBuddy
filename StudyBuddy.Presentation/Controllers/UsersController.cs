@@ -39,7 +39,7 @@ namespace StudyBuddy.Presentation.Controllers
 
                 var requester = HttpContext.User?.Identity?.Name;
 
-                var response = await serviceManager.UserService.GetUserDetails(username, trackChanges: false);
+                var response = await serviceManager.UserService.GetUserDetails(requester, username, trackChanges: false);
 
                 if(requester != null && requester.Equals(response.Username, StringComparison.CurrentCultureIgnoreCase))
                 {

@@ -14,6 +14,8 @@ namespace Services.Contracts
 
         IUserService UserService { get; }
 
+        IMatchService MatchService { get; }
+
         IPublishMessageService PublishMessageService { get; }
     }
 }

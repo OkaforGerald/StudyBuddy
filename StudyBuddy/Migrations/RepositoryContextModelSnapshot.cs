@@ -74,6 +74,30 @@ namespace StudyBuddy.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("Entities.Models.Match", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MatchedId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MatcherId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatchedId");
+
+                    b.HasIndex("MatcherId");
+
+                    b.ToTable("Matches");
+                });
+
             modelBuilder.Entity("Entities.Models.Message", b =>
                 {
                     b.Property<Guid>("Id")
@@ -107,6 +131,43 @@ namespace StudyBuddy.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Entities.Models.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MatchedId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("MatcherId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("NotifType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProfileViewerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("isRead")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatchedId");
+
+                    b.HasIndex("MatcherId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("ProfileViewerId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Entities.Models.ProficiencySelection", b =>
@@ -169,6 +230,9 @@ namespace StudyBuddy.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("Matches")
+                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -293,14 +357,14 @@ namespace StudyBuddy.Migrations
                         new
                         {
                             Id = "1eeb37db-b804-4aad-a378-bcf2ba93e82b",
-                            ConcurrencyStamp = "7a260801-2177-450c-851e-bbea6d18a874",
+                            ConcurrencyStamp = "7f77370d-5e42-4a14-b039-af3f0cab12a5",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "1bb823f0-2d92-47e8-be60-b2187df3555d",
-                            ConcurrencyStamp = "b6c2451a-a4c7-4615-9996-6ac47ee8f9eb",
+                            ConcurrencyStamp = "11ffecde-16bb-4a5e-8442-6cfa56330f48",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -434,6 +498,21 @@ namespace StudyBuddy.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("Entities.Models.Match", b =>
+                {
+                    b.HasOne("Entities.Models.User", "Matched")
+                        .WithMany()
+                        .HasForeignKey("MatchedId");
+
+                    b.HasOne("Entities.Models.User", "Matcher")
+                        .WithMany()
+                        .HasForeignKey("MatcherId");
+
+                    b.Navigation("Matched");
+
+                    b.Navigation("Matcher");
+                });
+
             modelBuilder.Entity("Entities.Models.Message", b =>
                 {
                     b.HasOne("Entities.Models.User", "Recipient")
@@ -451,6 +530,33 @@ namespace StudyBuddy.Migrations
                     b.Navigation("Recipient");
 
                     b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("Entities.Models.Notification", b =>
+                {
+                    b.HasOne("Entities.Models.User", "Matched")
+                        .WithMany()
+                        .HasForeignKey("MatchedId");
+
+                    b.HasOne("Entities.Models.User", "Matcher")
+                        .WithMany()
+                        .HasForeignKey("MatcherId");
+
+                    b.HasOne("Entities.Models.User", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId");
+
+                    b.HasOne("Entities.Models.User", "ProfileViewer")
+                        .WithMany()
+                        .HasForeignKey("ProfileViewerId");
+
+                    b.Navigation("Matched");
+
+                    b.Navigation("Matcher");
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("ProfileViewer");
                 });
 
             modelBuilder.Entity("Entities.Models.ProficiencySelection", b =>

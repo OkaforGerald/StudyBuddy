@@ -26,6 +26,10 @@ namespace SharedAPI.Data
 
         public string? Mode { get; set; }
 
+        public int MatchCount { get; set; }
+
+        public string? MatchStatus { get; set; }
+
         public string? LinkedinUrl { get; set; }
 
         public string? Website { get; set; }

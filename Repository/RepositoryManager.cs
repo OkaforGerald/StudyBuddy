@@ -14,8 +14,10 @@ namespace Repository
         private readonly Lazy<IUserRepository> userRepository;
         private readonly Lazy<ISelectionRepository> selectionRepository;
         private readonly Lazy<ICourseRepository> courseRepository;
+        private readonly Lazy<INotificationRepository> notificationRepository;
         private readonly Lazy<ICourseOfStudyRepository> courseOfStudyRepository;
         private readonly Lazy<IDepartmentRepository> departmentRepository;
+        private readonly Lazy<IMatchRepository> matchRepository;
 
         public RepositoryManager(RepositoryContext context)
         {
@@ -26,6 +28,8 @@ namespace Repository
             this.courseRepository = new Lazy<ICourseRepository>(new CourseRepository(context));
             this.courseOfStudyRepository = new Lazy<ICourseOfStudyRepository>(new CourseofStudyRepository(context));
             this.departmentRepository = new Lazy<IDepartmentRepository>(new DepartmentRepository(context));
+            this.matchRepository = new Lazy<IMatchRepository>(new MatchRepository(context));
+            this.notificationRepository = new Lazy<INotificationRepository>(new NotificationRepository(context));
         }
 
         public IMessageRepository MessageRepository => messageRepository.Value;
@@ -39,6 +43,10 @@ namespace Repository
         public IDepartmentRepository DepartmentRepository => departmentRepository.Value;
 
         public ICourseOfStudyRepository CourseOfStudyRepository => courseOfStudyRepository.Value;
+
+        public IMatchRepository MatchRepository => matchRepository.Value;
+
+        public INotificationRepository NotificationRepository => notificationRepository.Value;
 
         public async Task Save()
         {

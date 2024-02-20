@@ -30,12 +30,12 @@ namespace Repository
 
         public IQueryable<T> FindAll(bool trackChanges)
         {
-            return !trackChanges ? _context.Set<T>() : _context.Set<T>().AsNoTracking();
+            return !trackChanges ? _context.Set<T>().AsNoTracking() : _context.Set<T>();
         }
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> condition, bool trackChanges)
         {
-            return !trackChanges ? _context.Set<T>().Where(condition) : _context.Set<T>().Where(condition).AsNoTracking();
+            return !trackChanges ? _context.Set<T>().Where(condition).AsNoTracking() : _context.Set<T>().Where(condition);
         }
 
         public void Update(T entity)

@@ -20,6 +20,10 @@ namespace Contracts
 
         IDepartmentRepository DepartmentRepository { get; }
 
+        IMatchRepository MatchRepository { get; }
+
+        INotificationRepository NotificationRepository { get; }
+
         Task Save();
     }
 }

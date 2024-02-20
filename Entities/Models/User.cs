@@ -19,6 +19,8 @@ namespace Entities.Models
         //Change this url before live
         public string? ImageUrl { get; set; } = @"https://localhost:7122/Images/defaultavi.jpg";
 
+        public int Matches { get; set; }
+
         public string? RefreshToken { get; set; }
 
         public DateTime? RefreshTokenExpiry { get; set; }

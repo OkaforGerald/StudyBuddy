@@ -11,7 +11,7 @@ namespace Services.Contracts
 {
     public interface IUserService
     {
-        Task<UserDetailsDto> GetUserDetails(string username, bool trackChanges);
+        Task<UserDetailsDto> GetUserDetails(string requesterId, string username, bool trackChanges);
 
         Task<(List<UsersDto> users, Metadata metadata)> GetUsers(RequestParameters parameters, bool trackChanges);
     }

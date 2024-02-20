@@ -29,9 +29,11 @@ namespace Services
             this.userManager = userManager;
         }
 
-        public async Task<UserDetailsDto> GetUserDetails(string username, bool trackChanges)
+        public async Task<UserDetailsDto> GetUserDetails(string requester, string username, bool trackChanges)
         {
             var user = await userManager.FindByNameAsync(username);
+            var requesterUser = await userManager.FindByNameAsync(requester);
+
 
             if(user is null)
             {
@@ -44,6 +46,8 @@ namespace Services
                 var courseOfStudy = await manager.CourseOfStudyRepository.GetCourseById(details.CourseId, trackChanges);
                 var department = await manager.DepartmentRepository.GetDepartmentById(details.DepartmentId, trackChanges);
                 var proficiencySelection = await manager.SelectionRepository.GetProficiencySelectionsForUser(details.Id, trackChanges);
+                var MatchStatus = await manager.MatchRepository.GetMatchStatusBetweenUsers(requesterUser.Id,user.Id,trackChanges);
+                var Match = await manager.MatchRepository.GetMatchBetweenUsers(requesterUser.Id,user.Id,trackChanges);
 
                 List<ProficientCoursesDto> courses = new List<ProficientCoursesDto>();
 
@@ -59,6 +63,16 @@ namespace Services
 
                 }
 
+                Notification notif = new Notification
+                {
+                    OwnerId = user.Id,
+                    ProfileViewerId = requesterUser.Id,
+                    NotifType = NotificationType.ProfileView
+                };
+
+                manager.NotificationRepository.CreateNotification(notif);
+                await manager.Save();
+
                 return new UserDetailsDto
                 {
                     FullName = $"{user.FirstName} {user.LastName}",
@@ -68,6 +82,8 @@ namespace Services
                     Bio = user.Bio,
                     ImageUrl = user.ImageUrl,
                     CourseOfStudy = courseOfStudy.Name,
+                    MatchCount = user.Matches,
+                    MatchStatus = MatchStatus == 3 ? "No Match" : MatchStatus == 1 ? "Friends" : (MatchStatus == 0 && Match?.MatchedId == user.Id) ? "PendingAck" : "Pending",
                     Department = department.Name,
                     Mode = ((int)(object)details.Mode == 1) ? "Onsite" : "Virtual",
                     LinkedinUrl = details.LinkedInUrl,
