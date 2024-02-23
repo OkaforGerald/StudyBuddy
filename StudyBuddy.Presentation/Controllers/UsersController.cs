@@ -65,7 +65,9 @@ namespace StudyBuddy.Presentation.Controllers
         [Authorize]
         public async Task<IActionResult> GetUsers([FromQuery] RequestParameters parameters)
         {
-            var result = await serviceManager.UserService.GetUsers(parameters, trackChanges: false);
+            var requester = HttpContext.User?.Identity?.Name;
+
+            var result = await serviceManager.UserService.GetUsers(requester, parameters, trackChanges: false);
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.metadata));
 

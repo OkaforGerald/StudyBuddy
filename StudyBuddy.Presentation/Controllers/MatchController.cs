@@ -34,7 +34,7 @@ namespace StudyBuddy.Presentation.Controllers
             var requester = HttpContext.User?.Identity?.Name;
             try
             {
-                await manager.MatchService.CreateMatch(username, requester);
+                await manager.MatchService.CreateMatch(requester, username);
             }catch(Exception ex)
             {
                 Console.WriteLine(ex);
@@ -58,7 +58,6 @@ namespace StudyBuddy.Presentation.Controllers
                 }
 
                 var acknowledger = HttpContext.User?.Identity?.Name;
-
                 await manager.MatchService.AcknowledgeMatch(acknowledger, username, trackChanges: true);
 
             }

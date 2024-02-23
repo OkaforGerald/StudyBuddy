@@ -3,7 +3,7 @@
 
 @inject IUserService userService
 @inject HttpInterceptorService Interceptor
-@implements IAsyncDisposable
+@implements IDisposable
 
 <div class="container">
     <div class="row">
@@ -134,10 +134,26 @@
                                                                 <div class="widget-26-job-salary">@user.ProficientCourse</div>
                                                             </td>
                                                             <td>
-                                                                <div class="widget-26-job-category bg-soft-warning">
-                                                                    <i class="indicator bg-warning"></i>
-                                                                    <span>@user.MatchStatus</span>
-                                                                </div>
+                                                                @if (user.MatchStatus.Equals("Friends"))
+                                                                {
+                                                                    <div class="widget-26-job-category bg-soft-success">
+                                                                        <i class="indicator bg-success"></i>
+                                                                        <span>@user.MatchStatus</span>
+                                                                    </div>
+                                                                }else if(user.MatchStatus.Equals("No Match"))
+                                                                {
+                                                                    <div class="widget-26-job-category bg-soft-danger">
+                                                                        <i class="indicator bg-warning"></i>
+                                                                        <span>@user.MatchStatus</span>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="widget-26-job-category bg-soft-info">
+                                                                        <i class="indicator bg-info"></i>
+                                                                        <span>@user.MatchStatus</span>
+                                                                    </div>
+                                                                }
                                                             </td>
                                                             <td>
                                                             @for (int i = 1; i <= 5; i++)

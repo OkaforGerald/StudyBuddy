@@ -23,6 +23,7 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IMatchService, MatchService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<RefreshTokenService>();
 builder.Services.AddScoped<HttpInterceptorService>();
 

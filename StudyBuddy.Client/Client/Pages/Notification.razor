@@ -1,0 +1,107 @@
+﻿@page "/notifications"
+@using StudyBuddy.Client.Client.HttpRepository;
+
+@implements IDisposable
+@inject HttpInterceptorService Interceptor
+@inject IUserService UserService
+@inject IMatchService MatchService
+@inject INotificationService NotificationService
+@inject NavigationManager Manager
+@inject IJSRuntime JSRuntime
+
+<div class="Notifications-container">
+    <div class="NotificationHeader">Your most recent notifications</div>
+    <div class="not-card-container">
+        @if (_notifications.Items != null)
+        {
+            @foreach (var notif in _notifications?.Items)
+            {
+                if (notif.NotifType.Equals("MatchRequest"))
+                {
+
+                    <div class="a-card friend-req">
+                        <div class="not-type">MATCH NOTIFICATION</div>
+                        <div class="not-desc">You have received a new friend request from @notif.Matcher</div>
+                        <div class="not-act">
+                            <button class="btn btn-primary" @onclick="() => AckMatch(notif?.Matcher)">Accept</button>
+                            <button class="btn btn-primary">Decline</button>
+                        </div>
+                    </div>
+                }
+                if (notif.NotifType.Equals("AckMatch"))
+                {
+                    var user = @notif.Matcher.Equals(notif.Owner) ? notif.Matched : notif.Matcher;
+                    <div class="a-card clan-not">
+                        <div class="not-type">FRIEND NOTIFICATION</div>
+                        <div class="not-desc">You have a new Match! Say hello to @user</div>
+                        <div class="not-act">
+                            <button class="btn btn-outline-primary"><a href="chat/@user" style="text-decoration: none">Message</a></button>
+                        </div>
+                    </div>
+                }
+                if (notif.NotifType.Equals("ProfileView"))
+                {
+                    <div class="a-card content-not">
+                        <div class="not-type">PROFILE VIEW</div>
+                        <div class="not-desc">@notif.ProfileViewer viewed your profile</div>
+                        <div class="not-act">
+                            <button class="btn btn-outline-primary"><a href="users/@notif.ProfileViewer" style="text-decoration: none">View Profile</a></button>
+                        </div>
+                    </div>
+                }
+            }
+
+        }
+        else
+        {
+            <p>Loading...</p>
+        }
+        <div class="a-card content-not">
+            <div class="not-type">CONTENT NOTIFICATION</div>
+            <div class="not-desc">Your video was liked by Z.</div>
+            <div class="not-act">
+                <button class="btn btn-primary">View post</button>
+            </div>
+        </div>
+        <div class="a-card misc-not">
+            <div class="not-type">TOURNAMENT NOTIFICATION</div>
+            <div class="not-desc">Tournament A is about to start! Get ready to join!</div>
+            <div class="not-act">
+                <button class="btn btn-primary">Join tournament</button>
+                <button class="btn btn-primary">View tournament</button>
+            </div>
+        </div>
+        <nav class="d-flex justify-content-center">
+            <ul class="pagination pagination-base pagination-boxed pagination-square mb-0">
+                @if (_notifications.Items != null)
+                {
+                    @if (_notifications.Metadata.HasPrevious)
+                    {
+                        <li class="page-item">
+                            <a class="page-link no-border" href="#">
+                                <span aria-hidden="true">«</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                    }
+
+                    @for (int i = 1; i <= _notifications?.Metadata?.PageCount; i++)
+                    {
+                        int pageNumber = i;
+                        <li class="page-item @((_notifications.Metadata.PageCount == i) ? "active" : "") " @onclick="async () => await PageChanged(pageNumber)"><span class="page-link no-border">@i</span></li>
+                    }
+
+                    @if (_notifications.Metadata.HasNext)
+                    {
+                        <li class="page-item">
+                            <a class="page-link no-border" href="#" inactive>
+                                <span aria-hidden="true">»</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </nav>
+    </div>
+</div>

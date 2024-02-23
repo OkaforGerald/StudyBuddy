@@ -30,6 +30,8 @@ namespace Services
             var acknowledger = await userManager.FindByNameAsync(MatchAcknowledger);
             var requester = await userManager.FindByNameAsync(MatchRequester);
             var match = await repositoryManager.MatchRepository.GetMatchBetweenUsers(acknowledger.Id,requester.Id, trackChnages);
+            var matchNotification = await repositoryManager.NotificationRepository.GetNotificationsForMatch(requester.Id, acknowledger.Id, trackChnages);
+            repositoryManager.NotificationRepository.DeleteNotification(matchNotification);
 
             if(match is null)
             {
@@ -42,7 +44,25 @@ namespace Services
             await userManager.UpdateAsync(acknowledger);
             await userManager.UpdateAsync(requester);
 
+            Notification notif = new Notification
+            {
+                OwnerId = acknowledger.Id,
+                MatcherId = requester.Id,
+                MatchedId = acknowledger.Id,
+                NotifType = NotificationType.AckMatch,
+                CreatedAt = DateTime.UtcNow
+            };
+            Notification notif1 = new Notification
+            {
+                OwnerId = requester.Id,
+                MatcherId = requester.Id,
+                MatchedId = acknowledger.Id,
+                NotifType = NotificationType.AckMatch,
+                CreatedAt = DateTime.UtcNow
+            };
             match.Status = MatchStatus.Friends;
+            repositoryManager.NotificationRepository.CreateNotification(notif);
+            repositoryManager.NotificationRepository.CreateNotification(notif1);
             await repositoryManager.Save();
         }
 
@@ -65,9 +85,11 @@ namespace Services
 
             Notification notif = new Notification
             {
+                OwnerId = responseer.Id,
                 MatcherId = requester.Id,
                 MatchedId = responseer.Id,
-                NotifType = NotificationType.MatchRequest
+                NotifType = NotificationType.MatchRequest,
+                CreatedAt = DateTime.UtcNow
             };
 
             repositoryManager.NotificationRepository.CreateNotification(notif);

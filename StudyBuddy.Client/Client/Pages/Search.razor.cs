@@ -35,7 +35,7 @@ namespace StudyBuddy.Client.Client.Pages
             users = await userService.GetUsers(parameters);
         }
 
-        public async ValueTask DisposeAsync()
+        public void Dispose()
         {
             Interceptor.DisposeEvent();
         }

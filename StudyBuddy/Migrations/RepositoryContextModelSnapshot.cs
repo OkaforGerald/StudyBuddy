@@ -139,6 +139,9 @@ namespace StudyBuddy.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("MatchedId")
                         .HasColumnType("nvarchar(450)");
 
@@ -153,9 +156,6 @@ namespace StudyBuddy.Migrations
 
                     b.Property<string>("ProfileViewerId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("isRead")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -357,14 +357,14 @@ namespace StudyBuddy.Migrations
                         new
                         {
                             Id = "1eeb37db-b804-4aad-a378-bcf2ba93e82b",
-                            ConcurrencyStamp = "7f77370d-5e42-4a14-b039-af3f0cab12a5",
+                            ConcurrencyStamp = "d4f40e31-f6e0-4434-971e-f2a25cc30f5e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "1bb823f0-2d92-47e8-be60-b2187df3555d",
-                            ConcurrencyStamp = "11ffecde-16bb-4a5e-8442-6cfa56330f48",
+                            ConcurrencyStamp = "7be5b4db-db20-42de-9158-732737511724",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

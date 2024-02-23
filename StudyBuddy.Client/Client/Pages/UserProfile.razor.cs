@@ -25,12 +25,14 @@ namespace StudyBuddy.Client.Client.Pages
         {
             await MatchService.CreateMatch(username);
             details.MatchStatus = "Pending";
+            StateHasChanged();
         }
 
         private async Task AckMatch(string username)
         {
             await MatchService.AckMatch(username);
             details.MatchStatus = "Friends";
+            StateHasChanged();
         }
 
         private void SetRating(int rating)

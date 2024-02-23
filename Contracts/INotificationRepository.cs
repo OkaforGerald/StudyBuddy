@@ -11,6 +11,8 @@ namespace Contracts
     {
         Task<IQueryable<Notification>> GetNotificationsForUser(string userId, bool trackChanges);
 
+        Task<Notification> GetNotificationsForMatch(string matcherId, string matchedId, bool trackChanges);
+
         void DeleteNotification(Notification notification);
 
         void CreateNotification(Notification notification);

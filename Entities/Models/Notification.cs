@@ -37,6 +37,6 @@ namespace Entities.Models
 
         public NotificationType NotifType { get; set; }
 
-        public bool isRead { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -67,7 +67,8 @@ namespace Services
                 {
                     OwnerId = user.Id,
                     ProfileViewerId = requesterUser.Id,
-                    NotifType = NotificationType.ProfileView
+                    NotifType = NotificationType.ProfileView,
+                    CreatedAt = DateTime.UtcNow
                 };
 
                 manager.NotificationRepository.CreateNotification(notif);
@@ -83,7 +84,7 @@ namespace Services
                     ImageUrl = user.ImageUrl,
                     CourseOfStudy = courseOfStudy.Name,
                     MatchCount = user.Matches,
-                    MatchStatus = MatchStatus == 3 ? "No Match" : MatchStatus == 1 ? "Friends" : (MatchStatus == 0 && Match?.MatchedId == user.Id) ? "PendingAck" : "Pending",
+                    MatchStatus = MatchStatus == 3 ? "No Match" : MatchStatus == 1 ? "Friends" : (MatchStatus == 0 && Match?.MatcherId == user.Id) ? "PendingAck" : "Pending",
                     Department = department.Name,
                     Mode = ((int)(object)details.Mode == 1) ? "Onsite" : "Virtual",
                     LinkedinUrl = details.LinkedInUrl,
@@ -98,8 +99,10 @@ namespace Services
             throw new Exception("No User Details");
         }
 
-        public async Task<(List<UsersDto> users,Metadata metadata)> GetUsers(RequestParameters parameters, bool trackChanges)
+        public async Task<(List<UsersDto> users,Metadata metadata)> GetUsers(string requester, RequestParameters parameters, bool trackChanges)
         {
+            var requesterUser = await userManager.FindByNameAsync(requester);
+
             var MatchingUsers = userManager.Users.GetUsers(parameters.SearchTerm ?? "");
 
             var users = PagedList<User>.ToPagedList(MatchingUsers,parameters.PageNumber, parameters.PageSize);
@@ -113,6 +116,8 @@ namespace Services
                     var courseOfStudy = await manager.CourseOfStudyRepository.GetCourseById(details.CourseId, trackChanges);
                     var proficiencySelection = await manager.SelectionRepository.GetProficiencySelectionsForUser(details.Id, trackChanges);
                     var course = await manager.CourseRepository.GetCourseById(proficiencySelection.Take(1).FirstOrDefault().CourseId, trackChanges);
+                    var MatchStatus = await manager.MatchRepository.GetMatchStatusBetweenUsers(requesterUser.Id, user.Id, trackChanges);
+                    var Match = await manager.MatchRepository.GetMatchBetweenUsers(requesterUser.Id, user.Id, trackChanges);
 
                     userDetails.Add(new UsersDto
                     {
@@ -121,7 +126,7 @@ namespace Services
                         UserName = user.UserName,
                         Course = courseOfStudy.Name,
                         ProficientCourse = course.Name,
-                        MatchStatus = "Pending",
+                        MatchStatus = MatchStatus == 3 ? "No Match" : MatchStatus == 1 ? "Friends" : (MatchStatus == 0 && Match?.MatcherId == user.Id) ? "PendingAck" : "Pending",
                         Rating = details.Rating
                     });
                 }
