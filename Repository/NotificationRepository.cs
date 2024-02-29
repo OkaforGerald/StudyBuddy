@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Contracts;
@@ -27,6 +28,14 @@ namespace Repository
             return await FindByCondition(x => x.OwnerId.Equals(matchedId) && x.MatcherId.Equals(matcherId) && x.MatchedId.Equals(matchedId), trackChanges)
                 .OrderByDescending(x => x.CreatedAt)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<int> GetNumberOfProfileViews(string userId, bool trackChanges)
+        {
+            var profileViews = await FindByCondition(x => (x.OwnerId.Equals(userId) && x.NotifType == NotificationType.ProfileView) && (x.CreatedAt >= DateTime.Now.AddDays(-30)), trackChanges)
+                .ToListAsync();
+
+            return profileViews.Count();
         }
 
         public void DeleteNotification(Notification notification)

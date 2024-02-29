@@ -35,6 +35,13 @@ namespace StudyBuddy.Client.Client.Pages
             StateHasChanged();
         }
 
+        private async Task DecMatch(string username)
+        {
+            await MatchService.DecMatch(username);
+            details.MatchStatus = "No Match";
+            StateHasChanged();
+        }
+
         private void SetRating(int rating)
         {
             currentRating = rating;

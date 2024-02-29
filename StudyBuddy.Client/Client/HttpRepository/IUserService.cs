@@ -9,5 +9,7 @@ namespace StudyBuddy.Client.Client.HttpRepository
         Task<UserDetailsDto> GetUserDetails(string username);
 
         Task<PagingResponse<UsersDto>> GetUsers(RequestParameters parameters);
+
+        Task<DashboardDto> Dashboard();
     }
 }

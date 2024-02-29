@@ -53,5 +53,18 @@ namespace StudyBuddy.Client.Client.HttpRepository
 
             return pagingResponse;
         }
+
+        public async Task<DashboardDto> Dashboard()
+        {
+            var response = await _client.GetAsync("users/dashboard");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+
+            var details = JsonSerializer.Deserialize<DashboardDto>(content, _options);
+            return details;
+        }
     }
 }

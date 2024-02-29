@@ -24,7 +24,7 @@
                         <div class="not-desc">You have received a new friend request from @notif.Matcher</div>
                         <div class="not-act">
                             <button class="btn btn-primary" @onclick="() => AckMatch(notif?.Matcher)">Accept</button>
-                            <button class="btn btn-primary">Decline</button>
+                            <button class="btn btn-primary" @onclick="() => DecMatch(notif?.Matcher)">Decline</button>
                         </div>
                     </div>
                 }
@@ -37,6 +37,14 @@
                         <div class="not-act">
                             <button class="btn btn-outline-primary"><a href="chat/@user" style="text-decoration: none">Message</a></button>
                         </div>
+                    </div>
+                }
+                if (notif.NotifType.Equals("DecMatch"))
+                {
+                    var user = @notif.Matcher.Equals(notif.Owner) ? notif.Matched : notif.Matcher;
+                    <div class="a-card misc-not">
+                        <div class="not-type">FRIEND NOTIFICATION</div>
+                        <div class="not-desc">@user declined your match request</div>
                     </div>
                 }
                 if (notif.NotifType.Equals("ProfileView"))

@@ -39,5 +39,15 @@ namespace StudyBuddy.Client.Client.HttpRepository
                 throw new ApplicationException(content);
             }
         }
+
+        public async Task DecMatch(string username)
+        {
+            var response = await _client.DeleteAsync($"match/{username}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+        }
     }
 }

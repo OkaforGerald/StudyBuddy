@@ -13,6 +13,8 @@ namespace Contracts
 
         Task<Notification> GetNotificationsForMatch(string matcherId, string matchedId, bool trackChanges);
 
+        Task<int> GetNumberOfProfileViews(string userId, bool trackChanges);
+
         void DeleteNotification(Notification notification);
 
         void CreateNotification(Notification notification);

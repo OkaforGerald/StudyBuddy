@@ -17,6 +17,12 @@ namespace Contracts
 
         Task<int> GetMatchStatusBetweenUsers(string requesterId, string userId, bool trackChanges);
 
+        Task<int> GetNumberOfMatches(string userId, bool trackChanges);
+
+        Task<int> GetNumberOfPendingMatches(string userId, bool trackChanges);
+
         void CreateMatch(Match match);
+
+        void DeleteMatch(Match match);
     }
 }

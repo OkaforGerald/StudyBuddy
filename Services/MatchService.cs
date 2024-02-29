@@ -61,12 +61,39 @@ namespace Services
                 CreatedAt = DateTime.UtcNow
             };
             match.Status = MatchStatus.Friends;
+            match.CreatedAt = DateTime.UtcNow;
             repositoryManager.NotificationRepository.CreateNotification(notif);
             repositoryManager.NotificationRepository.CreateNotification(notif1);
             await repositoryManager.Save();
         }
 
-        public async Task CreateMatch(string MatchRequester, string MatchResponseer)
+        public async Task DeclineMatch(string MatchAcknowledger, string MatchRequester, bool trackChanges)
+        {
+            var acknowledger = await userManager.FindByNameAsync(MatchAcknowledger);
+            var requester = await userManager.FindByNameAsync(MatchRequester);
+            var match = await repositoryManager.MatchRepository.GetMatchBetweenUsers(acknowledger.Id, requester.Id, trackChanges);
+            var matchNotification = await repositoryManager.NotificationRepository.GetNotificationsForMatch(requester.Id, acknowledger.Id, trackChanges);
+            repositoryManager.NotificationRepository.DeleteNotification(matchNotification);
+
+            if (match is null)
+            {
+                throw new Exception("Match Can't be found");
+            }
+            Notification notif1 = new Notification
+            {
+                OwnerId = requester.Id,
+                MatcherId = requester.Id,
+                MatchedId = acknowledger.Id,
+                NotifType = NotificationType.DecMatch,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            repositoryManager.NotificationRepository.CreateNotification(notif1);
+            repositoryManager.MatchRepository.DeleteMatch(match);
+            await repositoryManager.Save();
+        }
+
+            public async Task CreateMatch(string MatchRequester, string MatchResponseer)
         {
             var responseer = await userManager.FindByNameAsync(MatchResponseer);
             var requester = await userManager.FindByNameAsync(MatchRequester);
@@ -80,7 +107,8 @@ namespace Services
             {
                 MatcherId = requester.Id,
                 MatchedId = responseer.Id,
-                Status = MatchStatus.Pending
+                Status = MatchStatus.Pending,
+                CreatedAt = DateTime.UtcNow
             };
 
             Notification notif = new Notification

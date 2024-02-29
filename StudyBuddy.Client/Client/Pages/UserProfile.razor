@@ -51,6 +51,7 @@
                                     else if (!details.RequestedByOwner && details.MatchStatus.Equals("PendingAck"))
                                     {
                                         <button class="btn btn-primary" @onclick="()=> AckMatch(details?.Username)">Acknowledge Match</button>
+                                        <button class="btn btn-warning" @onclick="()=> DecMatch(details?.Username)">Decline Match</button>
                                     }
                                     else if (!details.RequestedByOwner && details.MatchStatus.Equals("Friends"))
                                     {

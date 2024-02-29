@@ -1,4 +1,107 @@
 ﻿@page "/"
+@using StudyBuddy.Client.Client.HttpRepository;
 
-<h1>Home Omo</h1>
+@inject IUserService UserService
+
+<div class="page-content container note-has-grid">
+    <ul class="nav nav-pills p-3 bg-white mb-3 rounded-pill align-items-center">
+        @if (dashboardDto.TimeRequested.Hour >= 6 && dashboardDto.TimeRequested.Hour < 18)
+        {
+            <li class="nav-item">
+                <h2 style="font:larger"><span class="oi oi-sun" aria-hidden="true"></span> Good Day, @dashboardDto.username</h2>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <h2 style="font:larger"><span class="oi oi-moon" aria-hidden="true"></span> Good Evening, @dashboardDto.username</h2>
+            </li>
+        }
+    </ul>
+    <div class="tab-content bg-transparent">
+        <div id="note-full-container" class="note-has-grid row">
+            <div class="col-md-4 single-note-item all-category" style="">
+                <div class="card card-body">
+                    <span class="side-stick"></span>
+                    <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="@dashboardDto.ProfileViews"><b>@dashboardDto.ProfileViews</b><i class="point fa fa-circle ml-1 font-10"></i></h5>
+                    <p class="note-date font-12 text-muted">Profile views in the last 30 days</p>
+                    <div class="note-content">
+                        <p class="note-inner-content text-muted">@(dashboardDto.ProfileViews > 0 ? "People that have visited your profile in the last month!" : "Grow your network")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 single-note-item all-category note-important" style="">
+                <div class="card card-body">
+                    <span class="side-stick"></span>
+                    <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="@dashboardDto.PendingMatches"><b>@dashboardDto.PendingMatches</b><i class="point fa fa-circle ml-1 font-10"></i></h5>
+                    <p class="note-date font-12 text-muted">Pending Matches</p>
+                    <div class="note-content">
+                        <p class="note-inner-content text-muted" data-notecontent="You have matches you haven't acknowledged!">@(dashboardDto.PendingMatches > 0 ? "You have matches you haven't acknowledged!" : "You don't have matches yet'")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 single-note-item all-category note-social" style="">
+                <div class="card card-body">
+                    <span class="side-stick"></span>
+                    <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="@dashboardDto.NumMatches.ToString("00")"><b>@(dashboardDto.NumMatches > 0 ? dashboardDto.NumMatches.ToString("00") : dashboardDto.NumMatches)</b><i class="point fa fa-circle ml-1 font-10"></i></h5>
+                    <p class="note-date font-12 text-muted">Matches in the last 30 days</p>
+                    <div class="note-content">
+                        <p class="note-inner-content text-muted" data-notecontent="You've expanded your network by 6 students in the last month!">@(dashboardDto.NumMatches > 0 ? $"You've expanded your network by {dashboardDto.NumMatches} students in the last month!" : "You've not made any matches in the last 30 days!'")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 single-note-item all-category note-business" style="">
+                <div class="card card-body">
+                    <span class="side-stick"></span>
+                    <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="Give Review for design"><b>60%</b><i class="point fa fa-circle ml-1 font-10"></i></h5>
+                    <p class="note-date font-12 text-muted">Of your matches</p>
+                    <div class="note-content">
+                        <p class="note-inner-content text-muted" data-notecontent="You've expanded your network by 6 students in the last month!">A good percentage of your matches all-time are in <b>Computer Science</b></p>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    <!-- Modal Add notes -->
+    <div class="modal fade" id="addnotesmodal" tabindex="-1" role="dialog" aria-labelledby="addnotesmodalTitle" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title text-white">Add Notes</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="notes-box">
+                        <div class="notes-content">
+                            <form action="javascript:void(0);" id="addnotesmodalTitle">
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <div class="note-title">
+                                            <label>Note Title</label>
+                                            <input type="text" id="note-has-title" class="form-control" minlength="25" placeholder="Title" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="note-description">
+                                            <label>Note Description</label>
+                                            <textarea id="note-has-description" class="form-control" minlength="60" placeholder="Description" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-n-save" class="float-left btn btn-success" style="display: none;">Save</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Discard</button>
+                    <button id="btn-n-add" class="btn btn-info" disabled="disabled">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

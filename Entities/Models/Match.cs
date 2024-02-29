@@ -28,5 +28,7 @@ namespace Entities.Models
         public User? Matched { get; set; }
 
         public MatchStatus Status { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

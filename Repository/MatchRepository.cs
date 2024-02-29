@@ -44,9 +44,30 @@ namespace Repository
                 .ToListAsync();
         }
 
+        public async Task<int> GetNumberOfMatches(string userId, bool trackChanges)
+        {
+            var matchesInThirtyDays = await FindByCondition(x => (x.MatcherId.Equals(userId) || x.MatchedId.Equals(userId)) && (x.CreatedAt >= DateTime.Now.AddDays(-30)), trackChanges)
+                .ToListAsync();
+
+            return matchesInThirtyDays.Count();
+        }
+
+        public async Task<int> GetNumberOfPendingMatches(string userId, bool trackChanges)
+        {
+            var pendingMatches = await FindByCondition(x => x.MatchedId.Equals(userId) && x.Status == MatchStatus.Pending, trackChanges)
+                .ToListAsync();
+
+            return pendingMatches.Count();
+        }
+
         public void CreateMatch(Match match)
         {
             Create(match);
+        }
+
+        public void DeleteMatch(Match match)
+        {
+            Delete(match);
         }
     }
 }

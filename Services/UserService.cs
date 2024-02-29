@@ -134,5 +134,23 @@ namespace Services
 
             return (users: userDetails, metadata: users.metadata);
         }
+
+        public async Task<DashboardDto> Dashboard(string username)
+        {
+            var user = await userManager.FindByNameAsync(username);
+
+            int NumMatches = await manager.MatchRepository.GetNumberOfMatches(user.Id, trackChanges: false);
+            int pendingMatches = await manager.MatchRepository.GetNumberOfPendingMatches(user.Id, trackChanges: false);
+            int profileViews = await manager.NotificationRepository.GetNumberOfProfileViews(user.Id, trackChanges: false);
+
+            return new DashboardDto
+            {
+                ProfileViews = profileViews,
+                PendingMatches = pendingMatches,
+                NumMatches = NumMatches,
+                TimeRequested = DateTime.UtcNow,
+                username = user.FirstName
+            };
+        }
     }
 }

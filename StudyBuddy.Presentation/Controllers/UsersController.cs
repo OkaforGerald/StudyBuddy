@@ -73,5 +73,14 @@ namespace StudyBuddy.Presentation.Controllers
 
             return Ok(result.users);
         }
+
+        [HttpGet("dashboard")]
+        [Authorize]
+        public async Task<IActionResult> Dashboard()
+        {
+            var username = HttpContext?.User?.Identity?.Name;
+
+            return Ok(await serviceManager.UserService.Dashboard(username));
+        }
     }
 }

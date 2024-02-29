@@ -11,5 +11,7 @@ namespace Services.Contracts
         Task CreateMatch(string MatchRequester, string MatchResponseer);
 
         Task AcknowledgeMatch(string MatchAcknowledger, string MatchRequester, bool trackChanges);
+
+        Task DeclineMatch(string MatchAcknowledger, string MatchRequester, bool trackChanges);
     }
 }

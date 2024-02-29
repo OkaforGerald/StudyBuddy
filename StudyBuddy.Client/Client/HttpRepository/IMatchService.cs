@@ -5,5 +5,7 @@
         Task CreateMatch(string username);
 
         Task AckMatch(string username);
+
+        Task DecMatch(string username);
     }
 }

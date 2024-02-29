@@ -67,5 +67,30 @@ namespace StudyBuddy.Presentation.Controllers
             }
             return NoContent();
         }
+
+        [HttpDelete("{username}")]
+        public async Task<IActionResult> DeclineMatch(string username)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(username))
+                {
+                    return BadRequest(new
+                    {
+                        StatusCode = 400,
+                        Error = "Username Can't be null"
+                    });
+                }
+
+                var acknowledger = HttpContext.User?.Identity?.Name;
+                await manager.MatchService.DeclineMatch(acknowledger, username, trackChanges: false);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return NoContent();
+        }
     }
 }

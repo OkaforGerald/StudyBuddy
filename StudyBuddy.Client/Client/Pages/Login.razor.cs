@@ -27,7 +27,7 @@ namespace StudyBuddy.Client.Client.Pages
             }
             else
             {
-                NavigationManager.NavigateTo("/home");
+                NavigationManager.NavigateTo("/");
             }
         }
     }

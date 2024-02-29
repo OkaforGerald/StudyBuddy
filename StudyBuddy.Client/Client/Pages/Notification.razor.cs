@@ -29,6 +29,12 @@ namespace StudyBuddy.Client.Client.Pages
             await OnInitializedAsync();
         }
 
+        private async Task DecMatch(string username)
+        {
+            await MatchService.DecMatch(username);
+            await OnInitializedAsync();
+        }
+
         public void Dispose()
         {
             Interceptor.DisposeEvent();
