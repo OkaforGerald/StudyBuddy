@@ -18,6 +18,8 @@ namespace Services.Contracts
 
         IMatchService MatchService { get; }
 
+        ISchoolService SchoolService { get; }
+
         IPublishMessageService PublishMessageService { get; }
     }
 }

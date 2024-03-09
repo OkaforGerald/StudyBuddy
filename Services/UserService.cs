@@ -107,12 +107,32 @@ namespace Services
 
             var users = PagedList<User>.ToPagedList(MatchingUsers,parameters.PageNumber, parameters.PageSize);
 
+            List<User> MatchedUsers = new List<User>();
+
             List<UsersDto> userDetails = new List<UsersDto>();
 
             foreach (var user in users)
             {
                 var details = await manager.UserRepository.GetUserDetails(user.Id, trackChanges);
-                if (details != null) {
+                if (details != null)
+                {
+                    if (!parameters.DepartmmentId.Equals(Guid.Empty) && !details.DepartmentId.Equals(parameters.DepartmmentId))
+                    {
+                        continue;
+                    }
+                    if (!parameters.CourseId.Equals(Guid.Empty) && !details.CourseId.Equals(parameters.CourseId))
+                    {
+                        continue;
+                    }
+                    MatchedUsers.Add(user);
+                }
+            }
+
+            foreach (var user in MatchedUsers)
+            {
+                var details = await manager.UserRepository.GetUserDetails(user.Id, trackChanges);
+                if (details != null)
+                {
                     var courseOfStudy = await manager.CourseOfStudyRepository.GetCourseById(details.CourseId, trackChanges);
                     var proficiencySelection = await manager.SelectionRepository.GetProficiencySelectionsForUser(details.Id, trackChanges);
                     var course = await manager.CourseRepository.GetCourseById(proficiencySelection.Take(1).FirstOrDefault().CourseId, trackChanges);
@@ -131,6 +151,7 @@ namespace Services
                     });
                 }
             }
+            users.metadata.TotalCount = MatchedUsers.Count();
 
             return (users: userDetails, metadata: users.metadata);
         }
@@ -139,6 +160,7 @@ namespace Services
         {
             var user = await userManager.FindByNameAsync(username);
 
+            var details = await manager.UserRepository.GetUserDetails(user.Id, false);
             int NumMatches = await manager.MatchRepository.GetNumberOfMatches(user.Id, trackChanges: false);
             int pendingMatches = await manager.MatchRepository.GetNumberOfPendingMatches(user.Id, trackChanges: false);
             int profileViews = await manager.NotificationRepository.GetNumberOfProfileViews(user.Id, trackChanges: false);
@@ -149,7 +171,8 @@ namespace Services
                 PendingMatches = pendingMatches,
                 NumMatches = NumMatches,
                 TimeRequested = DateTime.UtcNow,
-                username = user.FirstName
+                username = user.FirstName,
+                firstVisit = details == null
             };
         }
     }

@@ -21,6 +21,7 @@ namespace Services
         private readonly Lazy<IPublishMessageService> _publishService;
         private readonly Lazy<IMatchService> matchService;
         private readonly Lazy<INotificationService> notificationService;
+        private readonly Lazy<ISchoolService> _schoolService;
 
         public ServiceManager(IMapper mapper, UserManager<User> userManager, IConfiguration config, IRepositoryManager manager)
         {
@@ -28,6 +29,7 @@ namespace Services
             _messageService = new Lazy<IMessageService>(new MessageService(manager, userManager, mapper));
             _publishService = new Lazy<IPublishMessageService>(new PublishMessageService());
             _userService = new Lazy<IUserService>(new UserService(manager, mapper, userManager));
+            _schoolService = new Lazy<ISchoolService>(new SchoolService(manager, mapper, userManager));
             matchService = new Lazy<IMatchService>(new MatchService(manager, mapper, userManager));
             notificationService = new Lazy<INotificationService>(new NotificationService(manager, mapper, userManager));
         }
@@ -42,5 +44,7 @@ namespace Services
         public IMatchService MatchService => matchService.Value;
 
         public INotificationService NotificationService => notificationService.Value;
+
+        public ISchoolService SchoolService => _schoolService.Value;
     }
 }

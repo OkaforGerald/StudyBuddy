@@ -15,14 +15,21 @@
                             <div class="col-12">
                                 <div class="row no-gutters">
                                     <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                            <option>Location</option>
-                                            <option>London</option>
-                                            <option>Boston</option>
-                                            <option>Mumbai</option>
-                                            <option>New York</option>
-                                            <option>Toronto</option>
-                                            <option>Paris</option>
+                                        <select class="form-control" onchange="@DepartmentClicked">
+                                            <option value="@Guid.Empty">-Department--</option>
+                                            @foreach (var dept in deppartments)
+                                            {
+                                                <option value="@dept.Id">@dept.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                        <select class="form-control" onchange="@CourseClicked">
+                                            <option value="@Guid.Empty">-Course--</option>
+                                            @foreach (var course in courses)
+                                            {
+                                                <option value="@course.Id">@course.Name</option>
+                                            }
                                         </select>
                                     </div>
                                     <div class="col-lg-8 col-md-6 col-sm-12 p-0">

@@ -36,7 +36,7 @@
                     <h5 class="note-title text-truncate w-75 mb-0" data-noteheading="@dashboardDto.PendingMatches"><b>@dashboardDto.PendingMatches</b><i class="point fa fa-circle ml-1 font-10"></i></h5>
                     <p class="note-date font-12 text-muted">Pending Matches</p>
                     <div class="note-content">
-                        <p class="note-inner-content text-muted" data-notecontent="You have matches you haven't acknowledged!">@(dashboardDto.PendingMatches > 0 ? "You have matches you haven't acknowledged!" : "You don't have matches yet'")</p>
+                        <p class="note-inner-content text-muted" data-notecontent="You have matches you haven't acknowledged!">@(dashboardDto.PendingMatches > 0 ? "You have matches you haven't acknowledged!" : "You don't have matches yet")</p>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
           </div>
         </div>
     <!-- Modal Add notes -->
-    <div class="modal fade" id="addnotesmodal" tabindex="-1" role="dialog" aria-labelledby="addnotesmodalTitle" style="display: none;" aria-hidden="true">
+    <div class="modal fade" id="addnotesmodal" tabindex="-1" role="dialog" aria-labelledby="addnotesmodalTitle" style="display:@(dashboardDto.firstVisit ? "block;" : "none;")" aria-hidden="@(dashboardDto.firstVisit ? "block;" : "none;")">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content border-0">
                 <div class="modal-header bg-info text-white">
@@ -75,23 +75,39 @@
                 <div class="modal-body">
                     <div class="notes-box">
                         <div class="notes-content">
-                            <form action="javascript:void(0);" id="addnotesmodalTitle">
-                                <div class="row">
-                                    <div class="col-md-12 mb-3">
-                                        <div class="note-title">
-                                            <label>Note Title</label>
-                                            <input type="text" id="note-has-title" class="form-control" minlength="25" placeholder="Title" />
-                                        </div>
-                                    </div>
+                            <EditForm Model="details" OnValidSubmit="AddDetails" class="mb-4">
+                                <DataAnnotationsValidator />
 
-                                    <div class="col-md-12">
-                                        <div class="note-description">
-                                            <label>Note Description</label>
-                                            <textarea id="note-has-description" class="form-control" minlength="60" placeholder="Description" rows="3"></textarea>
-                                        </div>
-                                    </div>
+                                <label class=" col-2 font-weight-bold">Department: </label>
+                                <InputSelect @bind-Value="details.DepartmentId" class="form-control">
+                                    @foreach(var dept in deppartments)
+                                    {
+                                        <option value="@dept.Id">@dept.Name</option>
+                                    }
+                                </InputSelect>
+
+                                <label class=" col-2 font-weight-bold">Course: </label>
+                                <InputSelect @bind-Value="details.CourseId" class="form-control">
+                                    @foreach (var course in courses)
+                                    {
+                                        <option value="@course.Id">@course.Name</option>
+                                    }
+                                </InputSelect>
+
+                                <div class="form-group">
+                                    <label for="InputLinkedIn">LinkedIn</label>
+                                    <InputText id="InputLinkedIn" class="form-control" @bind-Value="details.LinkedinUrl" />
+                                    <ValidationMessage For="@(() => details.LinkedinUrl)" />
                                 </div>
-                            </form>
+
+                                <div class="form-group mb-4">
+                                    <label for="InputTwitter">Twitter</label>
+                                    <InputText id="InputTwitter" class="form-control" @bind-Value="details.Twitter" />
+                                    <ValidationMessage For="@(() => details.Twitter)" />
+                                </div>
+
+                                <button type="submit" class="btn btn-theme">Login</button>
+                            </EditForm>
                         </div>
                     </div>
                 </div>

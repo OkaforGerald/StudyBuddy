@@ -135,6 +135,10 @@
     display: none
 }
 
+.fade:not(.show) {
+    opacity: 2;
+}
+
 @media (max-width:767.98px) {
     .note-has-grid .single-note-item {
         max-width: 100%

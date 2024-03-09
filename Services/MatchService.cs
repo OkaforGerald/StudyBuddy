@@ -60,6 +60,17 @@ namespace Services
                 NotifType = NotificationType.AckMatch,
                 CreatedAt = DateTime.UtcNow
             };
+            Message message = new Message
+            {
+                messageContent = "👋",
+                RecipientUsername = requester.UserName,
+                SnederUsername = acknowledger.UserName,
+                RecipientId = requester.Id,
+                SenderId = acknowledger.Id,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            repositoryManager.MessageRepository.CreateMessage(message);
             match.Status = MatchStatus.Friends;
             match.CreatedAt = DateTime.UtcNow;
             repositoryManager.NotificationRepository.CreateNotification(notif);

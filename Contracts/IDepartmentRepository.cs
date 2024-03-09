@@ -10,5 +10,7 @@ namespace Contracts
     public interface IDepartmentRepository
     {
         Task<Department> GetDepartmentById(Guid Id, bool trackChanges);
+
+        Task<IEnumerable<Department>> GetDepartments(bool trackChanges);
     }
 }

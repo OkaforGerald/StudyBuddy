@@ -16,5 +16,7 @@ namespace Repository
         }
 
         public async Task<Department> GetDepartmentById(Guid Id, bool trackChanges) => await FindByCondition(x => x.Id == Id, trackChanges).FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<Department>> GetDepartments(bool trackChanges) => await FindAll(trackChanges).ToListAsync();
     }
 }

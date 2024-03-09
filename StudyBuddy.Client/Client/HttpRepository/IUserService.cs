@@ -10,6 +10,10 @@ namespace StudyBuddy.Client.Client.HttpRepository
 
         Task<PagingResponse<UsersDto>> GetUsers(RequestParameters parameters);
 
+        Task<List<DepartmentDto>> GetDepartments();
+
+        Task<List<CourseDto>> GetCourses(Guid Id);
+
         Task<DashboardDto> Dashboard();
     }
 }

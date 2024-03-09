@@ -20,5 +20,7 @@ namespace Repository
             return await FindByCondition(x => x.Id == Id, trackChanges)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<CourseOfStudy>> CourseByDepartmentId(Guid Id, bool trackChanges) => await FindByCondition(x => x.DepartmentId == Id,trackChanges).ToListAsync();
     }
 }

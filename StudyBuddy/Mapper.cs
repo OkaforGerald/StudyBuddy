@@ -11,6 +11,12 @@ namespace StudyBuddy
             CreateMap<UserCreationDto, User>();
 
             CreateMap<Message, HubMessage>();
+
+            CreateMap<Department, DepartmentDto>();
+
+            CreateMap<Course, CourseDto>();
+
+            CreateMap<CourseOfStudy, CourseDto>();
         }
     }
 }

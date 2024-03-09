@@ -10,5 +10,7 @@ namespace Contracts
     public interface ICourseOfStudyRepository
     {
         Task<CourseOfStudy> GetCourseById(Guid Id, bool trackChanges);
+
+        Task<IEnumerable<CourseOfStudy>> CourseByDepartmentId(Guid Id, bool trackChanges);
     }
 }

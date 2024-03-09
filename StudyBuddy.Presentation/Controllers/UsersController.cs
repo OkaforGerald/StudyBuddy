@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
+using SharedAPI.Data;
 using SharedAPI.RequestFeatures;
 
 namespace StudyBuddy.Presentation.Controllers
@@ -72,6 +73,16 @@ namespace StudyBuddy.Presentation.Controllers
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(result.metadata));
 
             return Ok(result.users);
+        }
+
+
+        [HttpPost("details")]
+        [Authorize]
+        public async Task<IActionResult> AddDetails([FromForm] AddDetailsDto details)
+        {
+            var requester = HttpContext.User?.Identity?.Name;
+
+            return NoContent();
         }
 
         [HttpGet("dashboard")]

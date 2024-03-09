@@ -17,5 +17,7 @@ namespace SharedAPI.Data
         public DateTime TimeRequested { get; set; }
 
         public string? username { get; set; }
+
+        public bool firstVisit {  get; set; }
     }
 }
