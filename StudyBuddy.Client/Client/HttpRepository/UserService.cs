@@ -36,6 +36,7 @@ namespace StudyBuddy.Client.Client.HttpRepository
             {
                 ["PageNumber"] = parameters.PageNumber.ToString(),
                 ["SearchTerm"] = parameters.SearchTerm == null ? "" : parameters.SearchTerm,
+                ["CourseSearchTerm"] = parameters.CourseSearchTerm == null ? "" : parameters.CourseSearchTerm,
                 ["DepartmmentId"] = parameters.DepartmmentId.ToString(),
                 ["CourseId"] = parameters.CourseId.ToString()
             };

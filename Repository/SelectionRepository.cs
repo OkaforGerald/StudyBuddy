@@ -16,6 +16,7 @@ namespace Repository
         public async Task<IEnumerable<ProficiencySelection>> GetProficiencySelectionsForUser(Guid userId, bool trackChanges)
         {
             return await FindByCondition(x => x.UserDetailsId == userId, trackChanges)
+                .Include(x => x.Course)
                 .OrderBy(x => x.Course)
                 .ToListAsync();
         }

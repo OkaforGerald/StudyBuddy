@@ -103,7 +103,7 @@ namespace Services
         {
             var requesterUser = await userManager.FindByNameAsync(requester);
 
-            var MatchingUsers = userManager.Users.GetUsers(parameters.SearchTerm ?? "");
+            var MatchingUsers = userManager.Users.GetUsers(parameters.CourseSearchTerm is not null ? "" : parameters.SearchTerm);
 
             var users = PagedList<User>.ToPagedList(MatchingUsers,parameters.PageNumber, parameters.PageSize);
 
@@ -139,6 +139,15 @@ namespace Services
                     var MatchStatus = await manager.MatchRepository.GetMatchStatusBetweenUsers(requesterUser.Id, user.Id, trackChanges);
                     var Match = await manager.MatchRepository.GetMatchBetweenUsers(requesterUser.Id, user.Id, trackChanges);
 
+                    if (!string.IsNullOrEmpty(parameters.CourseSearchTerm))
+                    {
+                        // Check if the user has the specified course in their proficiency selection
+                        var hasCourse = proficiencySelection.Any(s => s.Course.Name.ToLower().Contains(parameters.CourseSearchTerm.ToLower()));
+                        if (!hasCourse)
+                            continue; // Skip this user if they don't have the specified course
+                    }
+
+
                     userDetails.Add(new UsersDto
                     {
                         ImageUrl = user.ImageUrl,
@@ -151,7 +160,7 @@ namespace Services
                     });
                 }
             }
-            users.metadata.TotalCount = MatchedUsers.Count();
+            users.metadata.TotalCount = userDetails.Count();
 
             return (users: userDetails, metadata: users.metadata);
         }

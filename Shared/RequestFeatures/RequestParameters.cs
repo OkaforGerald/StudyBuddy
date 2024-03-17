@@ -24,6 +24,8 @@ namespace SharedAPI.RequestFeatures
         }
         public string? SearchTerm { get; set; }
 
+        public string? CourseSearchTerm { get; set; }
+
         public Guid DepartmmentId { get; set; }
 
         public Guid CourseId { get; set; }

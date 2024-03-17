@@ -54,7 +54,21 @@ namespace StudyBuddy.Client.Client.Pages
         private async Task SearchChanged(string searchTerm)
         {
             parameters.PageNumber = 1;
-            parameters.SearchTerm = searchTerm;
+
+            if(searchTerm.Contains("course:", StringComparison.CurrentCultureIgnoreCase))
+            {
+                var parts = searchTerm.Split(':');
+                if(parts.Length == 2)
+                {
+                    parameters.CourseSearchTerm = parts[1].Trim();
+                    searchTerm = $"course: <span style=\"color: blue;\">{parameters.CourseSearchTerm}</span>";
+                }
+            }
+            else
+            {
+                parameters.SearchTerm = searchTerm;
+            }
+           
             users = await userService.GetUsers(parameters);
         }
 

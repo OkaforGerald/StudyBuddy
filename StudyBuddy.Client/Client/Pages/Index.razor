@@ -79,20 +79,24 @@
                                 <DataAnnotationsValidator />
 
                                 <label class=" col-2 font-weight-bold">Department: </label>
-                                <InputSelect @bind-Value="details.DepartmentId" class="form-control">
-                                    @foreach(var dept in deppartments)
+                                <select class="form-control" onchange="@DepartmentClicked">
+                                    <option value="@Guid.Empty">-Department--</option>
+                                    @foreach (var dept in deppartments)
                                     {
                                         <option value="@dept.Id">@dept.Name</option>
                                     }
-                                </InputSelect>
+                                </select>
 
                                 <label class=" col-2 font-weight-bold">Course: </label>
-                                <InputSelect @bind-Value="details.CourseId" class="form-control">
-                                    @foreach (var course in courses)
-                                    {
-                                        <option value="@course.Id">@course.Name</option>
-                                    }
-                                </InputSelect>
+                                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                    <select class="form-control" onchange="@CourseClicked">
+                                        <option value="@Guid.Empty">-Course--</option>
+                                        @foreach (var course in courses)
+                                        {
+                                            <option value="@course.Id">@course.Name</option>
+                                        }
+                                    </select>
+                                </div>
 
                                 <div class="form-group">
                                     <label for="InputLinkedIn">LinkedIn</label>
