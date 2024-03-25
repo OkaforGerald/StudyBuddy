@@ -29,6 +29,15 @@ namespace StudyBuddy.Presentation.Controllers
             return Ok(departments);
         }
 
+        [HttpGet("courses")]
+        [Authorize]
+        public async Task<IActionResult> GetCourses()
+        {
+            var courses = await serviceManager.SchoolService.GetCourses(trackChanges: false);
+
+            return Ok(courses);
+        }
+
         [HttpGet("departments/{Id:Guid}/courses")]
         [Authorize]
         public async Task<IActionResult> GetCourses(Guid Id)

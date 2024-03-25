@@ -10,6 +10,8 @@ namespace StudyBuddy.Client.Client.Pages
         private DashboardDto dashboardDto { get; set; } = new();
         List<DepartmentDto> deppartments { get; set; } = new();
         List<CourseDto> courses { get; set; } = new();
+        List<CourseDto> coursesToSelected { get; set; } = new();
+        List<int> ProficiencyInts { get; set; } = new();
         private AddDetailsDto details { get; set; } = new();
 
         public Guid DepartmentId { get; set; }
@@ -19,16 +21,29 @@ namespace StudyBuddy.Client.Client.Pages
         [Inject]
         public IUserService userService { get; set; }
 
+        [Inject]
+        NavigationManager navigationManager { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             dashboardDto = await UserService.Dashboard();
             deppartments = await UserService.GetDepartments();
+            coursesToSelected = await UserService.GetCourses();
         }
 
         public async Task AddDetails()
         {
-
+            await userService.AddDetails(details);
+            await OnInitializedAsync();
         }
+
+        //private void AddProficientCourse()
+        //{
+        //    if (details.ProficientCourses.Count < 3)
+        //    {
+        //        details.ProficientCourses.Add(Guid.Empty);
+        //    }
+        //}
 
         private async Task DepartmentClicked(ChangeEventArgs departmentEvent)
         {
@@ -47,5 +62,7 @@ namespace StudyBuddy.Client.Client.Pages
             details.CourseId = CourseId;
             StateHasChanged();
         }
+
+        private void AssignImageUrl(string imgUrl) => details.ImageUrl = imgUrl;
     }
 }

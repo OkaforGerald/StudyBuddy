@@ -12,5 +12,7 @@ namespace Services.Contracts
         Task<List<DepartmentDto>> GetDepartments(bool trackChanges);
 
         Task<List<CourseDto>> GetCourseByDeptId(Guid Id, bool trackChanges);
+
+        Task<List<CourseDto>> GetCourses(bool trackChanges);
     }
 }

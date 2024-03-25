@@ -10,5 +10,7 @@ namespace Contracts
     public interface ISelectionRepository
     {
         Task<IEnumerable<ProficiencySelection>> GetProficiencySelectionsForUser(Guid userId, bool trackChanges);
+
+        void CreateSelection(ProficiencySelection selection);
     }
 }

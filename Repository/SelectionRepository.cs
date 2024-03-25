@@ -20,5 +20,10 @@ namespace Repository
                 .OrderBy(x => x.Course)
                 .ToListAsync();
         }
+
+        public void CreateSelection(ProficiencySelection selection)
+        {
+            Create(selection);
+        }
     }
 }

@@ -24,5 +24,10 @@ namespace SharedAPI.Data
         public Guid DepartmentId { get; set; }
 
         public int Mode { get; set; }
+
+        public string? ImageUrl { get; set; }
+
+        public List<Guid> ProficientCourses { get; set; } = new List<Guid> { Guid.Empty, Guid.Empty, Guid.Empty};
+        public List<int> ProficiencyInts { get; set; } = new List<int> { 0, 0, 0 };
     }
 }

@@ -21,5 +21,9 @@ namespace Repository
                 .FirstOrDefaultAsync();
         }
 
+        public async Task CreateUserDetails(UserDetails details)
+        {
+            Create(details);
+        }
     }
 }

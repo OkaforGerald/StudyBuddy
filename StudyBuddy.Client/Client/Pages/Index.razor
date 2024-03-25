@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using StudyBuddy.Client.Client.Components
 @using StudyBuddy.Client.Client.HttpRepository;
 
 @inject IUserService UserService
@@ -78,6 +79,7 @@
                             <EditForm Model="details" OnValidSubmit="AddDetails" class="mb-4">
                                 <DataAnnotationsValidator />
 
+                                <div class="form-group">
                                 <label class=" col-2 font-weight-bold">Department: </label>
                                 <select class="form-control" onchange="@DepartmentClicked">
                                     <option value="@Guid.Empty">-Department--</option>
@@ -86,9 +88,10 @@
                                         <option value="@dept.Id">@dept.Name</option>
                                     }
                                 </select>
+                                </div>
 
+                                <div class="form-group">
                                 <label class=" col-2 font-weight-bold">Course: </label>
-                                <div class="col-lg-3 col-md-3 col-sm-12 p-0">
                                     <select class="form-control" onchange="@CourseClicked">
                                         <option value="@Guid.Empty">-Course--</option>
                                         @foreach (var course in courses)
@@ -104,13 +107,69 @@
                                     <ValidationMessage For="@(() => details.LinkedinUrl)" />
                                 </div>
 
-                                <div class="form-group mb-4">
+                                <div class="form-group">
                                     <label for="InputTwitter">Twitter</label>
                                     <InputText id="InputTwitter" class="form-control" @bind-Value="details.Twitter" />
                                     <ValidationMessage For="@(() => details.Twitter)" />
                                 </div>
 
-                                <button type="submit" class="btn btn-theme">Login</button>
+                                <div class="form-group">
+                                    <label for="InputGithub">Github</label>
+                                    <InputText id="InputGithub" class="form-control" @bind-Value="details.Github" />
+                                    <ValidationMessage For="@(() => details.Github)" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="InputWebsite">Website</label>
+                                    <InputText id="InputWebsite" class="form-control" @bind-Value="details.Website" />
+                                    <ValidationMessage For="@(() => details.Website)" />
+                                </div>
+
+                                <label for="Course1">Course1:</label>
+                                    <select class = "form-control" @bind="details.ProficientCourses[0]">
+                                        <option value="">Select Course</option>
+                                        @foreach (var course in coursesToSelected)
+                                        {
+                                            <option value="@course.Id">@course.Name</option>
+                                        }
+                                    </select>
+                                <label for="Proficiency">Proficiency</label>
+                                    <input type="range" min="1" max="5" @bind="details.ProficiencyInts[0]" />
+                                    <br/>
+                                <label for="Course2">Course2:</label>
+                                <select class="form-control" @bind="details.ProficientCourses[1]">
+                                    <option value="">Select Course</option>
+                                    @foreach (var course in coursesToSelected)
+                                    {
+                                        <option value="@course.Id">@course.Name</option>
+                                    }
+                                </select>
+                                <label for="Proficiency">Proficiency</label>
+                                <input type="range" min="1" max="5" @bind="details.ProficiencyInts[1]" />
+                                <br/>
+                                <label for="Course3">Course3:</label>
+                                <select class="form-control" @bind="details.ProficientCourses[2]">
+                                    <option value="">Select Course</option>
+                                    @foreach (var course in coursesToSelected)
+                                    {
+                                        <option value="@course.Id">@course.Name</option>
+                                    }
+                                </select>
+                                <label for="Proficiency">Proficiency</label>
+                                <input type="range" min="1" max="5" @bind="details.ProficiencyInts[2]" />
+                                <br/>
+                               @*  @if (details.ProficientCourses.Count < 3)
+                                {
+                                    <button @onclick="AddProficientCourse">Add More</button>
+                                } *@
+                                <div class="form-group row">
+                                    <label for="image" class="col-md-2 col-form-label">Image:</label>
+                                    <div class="col-md-10">
+                                    <ImageUpload OnChange="AssignImageUrl" />
+                                </div>
+    </div>
+
+                                <button type="submit" class="btn btn-success">Save</button>
                             </EditForm>
                         </div>
                     </div>

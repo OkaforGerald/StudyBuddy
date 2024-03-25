@@ -15,6 +15,8 @@ namespace Services.Contracts
 
         Task<(List<UsersDto> users, Metadata metadata)> GetUsers(string requester, RequestParameters parameters, bool trackChanges);
 
+        Task AddDetails(string username, AddDetailsDto details);
+
         Task<DashboardDto> Dashboard(string username);
     }
 }

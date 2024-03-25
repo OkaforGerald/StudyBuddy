@@ -184,5 +184,39 @@ namespace Services
                 firstVisit = details == null
             };
         }
+
+        public async Task AddDetails(string username, AddDetailsDto details)
+        {
+            var user = await userManager.FindByNameAsync(username);
+
+            user.ImageUrl = details.ImageUrl;
+            await userManager.UpdateAsync(user);
+
+            var userDetails = new UserDetails
+            {
+                Mode = Modes.OnSite,
+                LinkedInUrl = details.LinkedinUrl,
+                Website = details.Website,
+                Github = details.Github,
+                Twitter = details.Twitter,
+                CourseId = details.CourseId,
+                DepartmentId = details.DepartmentId,
+                UserId = user.Id
+            };
+
+            await manager.UserRepository.CreateUserDetails(userDetails);
+
+            for (int i = 0; i < details.ProficiencyInts.Count; i++) {
+                var selection = new ProficiencySelection
+                {
+                    Level = details.ProficiencyInts[i] == 1 ? Proficiency.Basic : details.ProficiencyInts[i] == 2 ? Proficiency.Competent : details.ProficiencyInts[i] == 3 ? Proficiency.Advanced : details.ProficiencyInts[i] == 4 ? Proficiency.Master : details.ProficiencyInts[i] == 5 ? Proficiency.Expert : Proficiency.Basic,
+                    UserDetailsId = userDetails.Id,
+                    CourseId = details.ProficientCourses[i]
+                };
+                manager.SelectionRepository.CreateSelection(selection);
+            }
+
+            await manager.Save();
+        }
     }
 }

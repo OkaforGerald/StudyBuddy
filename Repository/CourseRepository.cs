@@ -18,5 +18,11 @@ namespace Repository
             return await FindByCondition(x => x.Id == Id, trackChanges)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<List<Course>> GetCourses(bool trackChanges)
+        {
+            return await FindAll(trackChanges)
+                .ToListAsync();
+        }
     }
 }

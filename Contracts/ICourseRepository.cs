@@ -10,5 +10,7 @@ namespace Contracts
     public interface ICourseRepository
     {
         Task<Course> GetCourseById(Guid Id, bool trackChanges);
+
+        Task<List<Course>> GetCourses(bool trackChanges);
     }
 }

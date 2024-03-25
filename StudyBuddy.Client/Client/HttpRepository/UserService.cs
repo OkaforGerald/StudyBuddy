@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.WebUtilities;
 using SharedAPI.Data;
 using SharedAPI.RequestFeatures;
@@ -83,6 +84,19 @@ namespace StudyBuddy.Client.Client.HttpRepository
             return details;
         }
 
+        public async Task<List<CourseDto>> GetCourses()
+        {
+            var response = await _client.GetAsync(@"school/courses");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(content);
+            }
+
+            var course = JsonSerializer.Deserialize<List<CourseDto>>(content, _options);
+            return course;
+        }
+
         public async Task<List<CourseDto>> GetCourses(Guid Id)
         {
             var response = await _client.GetAsync($"school/departments/{Id}/courses");
@@ -94,6 +108,37 @@ namespace StudyBuddy.Client.Client.HttpRepository
 
             var details = JsonSerializer.Deserialize<List<CourseDto>>(content, _options);
             return details;
+        }
+
+        public async Task<string> UploadProductImage(MultipartFormDataContent content)
+        {
+            var postResult = await _client.PostAsync("upload", content);
+            var postContent = await postResult.Content.ReadAsStringAsync();
+            if (!postResult.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(postContent);
+            }
+            else
+            {
+                var imgUrl = postContent;
+                return imgUrl;
+            }
+        }
+
+        public async Task AddDetails(AddDetailsDto addDetails)
+        {
+            var content = JsonSerializer.Serialize(addDetails);
+            var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+
+            var detailsResult = await _client.PostAsync("users/details", bodyContent);
+            var detailsContent = await detailsResult.Content.ReadAsStringAsync();
+
+            if (!detailsResult.IsSuccessStatusCode)
+            {
+                
+            }
+
+            //return new RegistrationResponseDto { IsSuccessfulRegistration = true };
         }
     }
 }

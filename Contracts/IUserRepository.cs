@@ -10,5 +10,7 @@ namespace Contracts
     public interface IUserRepository
     {
         Task<UserDetails> GetUserDetails(string id, bool trackChanges);
+
+        Task CreateUserDetails(UserDetails details);
     }
 }

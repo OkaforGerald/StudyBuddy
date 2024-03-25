@@ -12,8 +12,14 @@ namespace StudyBuddy.Client.Client.HttpRepository
 
         Task<List<DepartmentDto>> GetDepartments();
 
+        Task<List<CourseDto>> GetCourses();
+
         Task<List<CourseDto>> GetCourses(Guid Id);
 
         Task<DashboardDto> Dashboard();
+
+        Task AddDetails(AddDetailsDto addDetails);
+
+        Task<string> UploadProductImage(MultipartFormDataContent content);
     }
 }

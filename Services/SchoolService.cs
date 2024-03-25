@@ -34,6 +34,15 @@ namespace Services
             return department;
         }
 
+        public async Task<List<CourseDto>> GetCourses(bool trackChanges)
+        {
+            var depts = await manager.CourseRepository.GetCourses(trackChanges);
+
+            var courses = depts.Select(x => new CourseDto { Id = x.Id, Name = x.Name }).ToList();
+
+            return courses;
+        }
+
         public async Task<List<CourseDto>> GetCourseByDeptId(Guid Id, bool trackChanges)
         {
             var depts = await manager.DepartmentRepository.GetDepartmentById(Id, trackChanges);

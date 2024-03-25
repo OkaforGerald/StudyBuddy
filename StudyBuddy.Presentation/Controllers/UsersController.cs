@@ -78,9 +78,11 @@ namespace StudyBuddy.Presentation.Controllers
 
         [HttpPost("details")]
         [Authorize]
-        public async Task<IActionResult> AddDetails([FromForm] AddDetailsDto details)
+        public async Task<IActionResult> AddDetails([FromBody] AddDetailsDto details)
         {
             var requester = HttpContext.User?.Identity?.Name;
+
+            await serviceManager.UserService.AddDetails(requester, details);
 
             return NoContent();
         }
