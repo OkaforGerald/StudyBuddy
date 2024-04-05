@@ -61,6 +61,9 @@ Chat
 Notification
 ![Notification](PendingReqReceived.PNG)
 
+Search for users by name, department or course of study
+![Search](SearchByName&Course-Dept.PNG)
+
 Search for users by course you intend to study
 ![CourseKey](CourseKeyword.PNG)
 
