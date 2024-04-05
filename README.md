@@ -46,7 +46,25 @@ dotnet run
 
 ## Examples
 
+Login Page
 ![Login](Login.PNG)
+
+Dashboard
+![Dashboard](Dashboard.PNG)
+
+Profile Page
+![Profile](Profile.PNG)
+
+Chat
+![Chat](Chat.PNG)
+
+Notification
+![Notification](PendingReqReceived.PNG)
+
+Search for users by course you intend to study
+![CourseKey](CourseKeyword.PNG)
+
+
 ## Contributing
 
 Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
